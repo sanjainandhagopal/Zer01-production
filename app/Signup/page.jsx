@@ -4,6 +4,8 @@ import EmailForm from './FormFieldComponents/EmailForm';
 import MirrorForm from './MirrorForm/MirrorForm';
 import OtpForm from './FormFieldComponents/OtpForm';
 import ProfileForm from './FormFieldComponents/ProfileForm';
+import { useRouter } from 'next/navigation';
+import { ToastContainer } from 'react-toastify';
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -15,17 +17,20 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [mobileNo, setMobile] = useState("");
-    const [dateOfbirth, setDateOfBirth] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
     const [profession, setProfession] = useState("");
     const [organization, setOrganiation] = useState("");
+    const router = useRouter();
 
     const emailDetails = {
         email,
         setEmail,
-        setVerify
+        setVerify,
+        router
     };
 
     const otpDetails = {
+        email,
         otp,
         setOtp,
         setIsVerified
@@ -42,7 +47,7 @@ export default function Signup() {
         setConfirmPassword,
         mobileNo,
         setMobile,
-        dateOfbirth,
+        dateOfBirth,
         setDateOfBirth,
         profession,
         setProfession,
@@ -56,17 +61,24 @@ export default function Signup() {
         lastName,
         password,
         mobileNo,
-        dateOfbirth,
+        dateOfBirth,
         profession,
         organization
     }
   return (
     <div>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <ToastContainer />
+        <div>
+            {!verify && (
             <EmailForm emailDetails={emailDetails} />
+            )}
+            {verify && !isVerified && (
             <OtpForm otpDetails={otpDetails} />
+            )}
+            {isVerified && (
             <ProfileForm profileDetails={profileDetails} />
-        </form>
+            )}
+        </div>
         
         <MirrorForm mirrorDetails={mirrorDetails} />
     </div>
