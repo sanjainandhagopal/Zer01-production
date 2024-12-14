@@ -69,7 +69,7 @@ export default function Signup() {
     <div>
         <ToastContainer />
         <div>
-            {!verify && (
+            {/* {!verify && (
             <EmailForm emailDetails={emailDetails} />
             )}
             {verify && !isVerified && (
@@ -78,7 +78,8 @@ export default function Signup() {
             {isVerified && (
             <ProfileForm profileDetails={profileDetails} />
             
-            )}
+            )} */}
+            <EmailForm emailDetails={emailDetails} />
         </div>
         
         <MirrorForm mirrorDetails={mirrorDetails} />
