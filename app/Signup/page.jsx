@@ -77,6 +77,7 @@ export default function Signup() {
             )}
             {isVerified && (
             <ProfileForm profileDetails={profileDetails} />
+            
             )}
         </div>
         

@@ -53,8 +53,8 @@ export default function ProfileForm({profileDetails}) {
     };
 
   return (
-    <div>
-      <label>
+    <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
+      <div><label>
         <span>First Name</span>
         <input type="text" name="FirstName" id="FirstName" 
           placeholder='Enter your first name'
@@ -62,7 +62,8 @@ export default function ProfileForm({profileDetails}) {
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
-      </label>
+      </label></div>
+      <div>
       <label>
         <span>Last Name</span>
         <input type="text" name="LastName" id="LastName" 
@@ -72,7 +73,9 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
-      <label>
+      </div>
+     <div>
+     <label>
         <span>Password</span>
         <input type="password" name="password" id="password" 
           placeholder='Enter your password'
@@ -81,6 +84,8 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
+     </div>
+      <div>
       <label>
         <span>Confirm Password</span>
         <input type="password" name="ConfirmPassword" id="ConfirmPassword" 
@@ -90,6 +95,8 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
+      </div>
+      <div>
       <label>
         <span>Moile Number</span>
         <input type="tel" name="MobileNumber" id="MobileNumber" 
@@ -99,6 +106,8 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
+      </div>
+      <div>
       <label>
         <span>Date of birth</span>
         <input type="date" name="DOB" id="DOB"
@@ -107,6 +116,8 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
+      </div>
+      <div>
       <label>
         <span>Profession</span>
         <input type="text" name="profession" id="profession" 
@@ -116,6 +127,8 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
+      </div>
+      <div>
       <label>
         <span>Organization</span>
         <input type="text" name="organization" id="organization" 
@@ -125,6 +138,7 @@ export default function ProfileForm({profileDetails}) {
           required
         />
       </label>
+      </div>
 
       <button type="button"
         onClick={handleSubmit}
