@@ -10,7 +10,7 @@ const SearchBar = () => {
   };
   
   return (
-   <div className="p-5 -mt-28">
+   <div className="px-5 -mt-28">
      <div className="flex items-center justify-between p-2 w-full max-w-lg bg-transparent border-2 border-white rounded-full mx-auto">
       {/* Left section: Dropdown button */}
       <select

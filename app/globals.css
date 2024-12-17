@@ -10,10 +10,11 @@ body {
   font-family: Helvetica, sans-serif;
   background: #000000;
   color: #ffffff;
+
 }
 
-.hero-card {
-  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+.hero-card{
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
 }
 .prblm-card{
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.316), rgba(255, 255, 255, 0.01))
