@@ -49,11 +49,11 @@ export default function Summary({ params }) {
       );
   
       alert("Enrolled successfully!");
-      router.push(`/Course/Viewer/${user.id}`);
+      router.push(`/Course/Viewer/${courseId}`);
     } catch (error) {
       console.error("Enrollment error:", error);
       alert(error.response?.data?.message || "Failed to enroll.");
-      router.push(`/Course/Viewer/${user.id}`);
+      router.push(`/Course/Viewer/${courseId}`);
     }
   };
   
