@@ -8,8 +8,10 @@ body {
   font-family:  Helvetica, sans-serif;
   background: #000000;
   color: #ffffff;
-
+  padding-left: 1em ;
+  padding-right: 1em ;
 }
+
 .hero-card{
   background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
 }
@@ -25,25 +27,16 @@ body {
 
 
 /* caticons */
-
-/* From Uiverse.io by 0xnihilism */ 
-.button-container {
-  display: flex;
-  justify-content: center;
-}
-
 .brutalist-button {
   border-radius: 12px;
-  padding: 0;
+  padding: 0; 
   text-decoration: none;
   color: #000000;
-  font-weight: bold;
+  font-weight: bold;  
   position: relative;
   box-shadow: 4px 4px 0px #000000;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  height: 10em;
-  width: 10em;
   cursor: pointer;
 }
 
@@ -146,6 +139,7 @@ body {
 }
 
 
+
 .button-text {
   display: flex;
   flex-direction: column;
@@ -169,7 +163,7 @@ body {
 }
 
 .button-text span:last-child {
-  font-size: 16px;
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -246,6 +240,178 @@ body {
 }
 
 .brutalist-button.cloud:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* algo */
+.brutalist-button.algo {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.algo::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.algo-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.algo-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(0, 0%, 11%); /* algo's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.algo-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .algo-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .algo-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.algo:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.algo:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+
+/* maths */
+.brutalist-button.maths {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.maths::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.maths-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.maths-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(0, 0%, 11%); /* maths's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.maths-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .maths-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .maths-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.maths:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.maths:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* daily */
+.brutalist-button.daily {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.daily::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.daily-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.daily-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #14252c; /* daily's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.daily-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .daily-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .daily-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.daily:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.daily:hover .button-text span:last-child {
   color: #d6cbbf;
 }
 
@@ -564,8 +730,6 @@ body {
 
 
 /* blogcard */
-
-/* From Uiverse.io by javierBarroso */ 
 .book {
   position: relative;
   border-radius: 10px;
@@ -622,9 +786,9 @@ body {
 .book:hover .cover {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  -webkit-transform: rotatey(70deg);
-  -ms-transform: rotatey(70deg);
-  transform: rotatey(-70deg);
+  -webkit-transform: rotatey(69deg);
+  -ms-transform: rotatey(69deg);
+  transform: rotatey(-69deg);
 }
 
 .inner {
@@ -637,18 +801,63 @@ body {
     translateX(140px);
   -ms-transform: rotateZ(25deg) rotateX(-30deg) rotateY(-10deg)
     translateX(140px);
-  transform: rotateZ(25deg) rotateX(-30deg) rotateY(-10deg) translateX(140px);
+  transform: rotateZ(25deg) rotateX(-20deg) rotateY(-20deg) translateX(9em);
   -webkit-box-shadow: 1px 1px 20px #000a;
   box-shadow: 1px 1px 20px #000a;
 }
 
 .book:hover {
-  transform: rotateZ(-10deg);
+  transform: rotateZ(-10deg) ;
 }
 .text {
   font-size: 20px;
   font-weight: 100;
 }
 
+/* From Uiverse.io by portseif */ 
+.btn {
+  align-items: center;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: 0;
+  border: 0;
+  padding: 1rem;
+}
+
+.btn:before {
+  background-color: #fff;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  margin-right: 10px;
+  transition: all .42s cubic-bezier(.25,.8,.25,1);
+  width: 0;
+}
+
+.btn:hover:before {
+  background-color: #fff;
+  width: 1rem;
+}
 
 
+/* module */
+
+.wh-card {
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.wh-card:hover {
+  transform: scale(1.02);
+  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.25);
+}

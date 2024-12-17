@@ -6,7 +6,7 @@ import NavigationBar from "./NavigationBar/page";
 export default function Home() {
   return (
     <div>
-      {/* <NavigationBar/> */}
+      <NavigationBar/>
       {/* <Login /> */}
       <Index/>
     </div>

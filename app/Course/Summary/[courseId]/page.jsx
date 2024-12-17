@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function Summary({params}) {
+function page() {
   return (
-    <div>Course id: {params.courseId}</div>
+    <div>page</div>
   )
 }
+
+export default page

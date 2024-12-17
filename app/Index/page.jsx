@@ -6,6 +6,7 @@ import Cardlist from './CardList/Cardlist'
 import Projectcard from './CardList/Projectcard'
 import Prblmcard from './Pblm/Prblmcard'
 import Blogcard from './Blogcard/Blogcard'
+import Summary from '../Course/Summary/[courseId]/page'
 
 export default function Index() {
   return (
@@ -17,6 +18,7 @@ export default function Index() {
       <Projectcard/>
       <Prblmcard/>
       <Blogcard/>
+      <Summary/>
           </div>
   )
 }

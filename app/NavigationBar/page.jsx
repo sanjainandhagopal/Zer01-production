@@ -1,59 +1,127 @@
-import React from 'react'
+"use client";
+import React, { useState } from "react";
 
-export default function NavigationBar() {
+const NavigationBar = ({ isLoggedIn, onLogin, onLogout }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
-  
-<nav className=" shadow-cyan-200 shadow mt-2 dark:bg-gray-900 dark:border-gray-700 w-[75%] mx-auto px-10 rounded-full ">    
-  <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-    </a>
-    <button data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
-        <span className="sr-only">Open main menu</span>
-        <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-        </svg>
-    </button>
-    <div className="hidden w-full md:block md:w-auto" id="navbar-dropdown">
-      <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-        <li>
-          <a href="#" className="block py-2 px-3 text-cyan-300 bg-blue-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">Home</a>
-        </li>
-        <li>
-            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Dropdown <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-  </svg></button>
-            <div id="dropdownNavbar" className="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                  </li>
-                </ul>
-                <div className="py-1">
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                </div>
-            </div>
-        </li>
-        <li>
-          <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-        </li>
-        <li>
-          <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-        </li>
-        <li>
-          <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-transparent via-gray-800 to-transparent text-white z-50">
+      <div className="container mx-auto flex items-center justify-between px-4">
+        {/* Left: Nav Brand */}
+        <div className="flex items-center space-x-2">
+          <img src="/zer01-logo.png" alt="Brand Logo" className="w-[6em]" />
+        </div>
 
-  )
-}
+        {/* Middle: Nav Links */}
+        <div className="hidden md:flex space-x-8">
+          <a href="/courses" className="hover:text-gray-300">Course</a>
+          <a href="/projects" className="hover:text-gray-300">Projects</a>
+          <a href="/problems" className="hover:text-gray-300">Problems</a>
+          <a href="/blogs" className="hover:text-gray-300">Blogs</a>
+        </div>
+
+        {/* Right: Profile or Login */}
+        <div className="hidden md:flex items-center space-x-4">
+          {isLoggedIn ? (
+            <button
+              onClick={onLogout}
+              className="flex items-center space-x-2 hover:text-gray-300"
+            >
+              <img
+                src="/path/to/profile-icon.png"
+                alt="Profile Icon"
+                className="h-6 w-6 rounded-full"
+              />
+              <span>Logout</span>
+            </button>
+          ) : (
+            <button
+              onClick={onLogin}
+              className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
+            >
+              Login
+            </button>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden flex items-center"
+          onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+        >
+          {isDrawerOpen ? (
+            <span className="text-white text-2xl">&times;</span>
+          ) : (
+            <span className="text-white text-2xl">&#9776;</span>
+          )}
+        </button>
+      </div>
+
+      {/* Mobile Drawer */}
+      {isDrawerOpen && (
+        <div className="absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-gray-800 via-transparent to-gray-900 backdrop-blur-lg flex flex-col items-center justify-center space-y-8 text-lg">
+          {/* Close Button */}
+          <button
+            className="absolute top-4 right-4 text-white text-2xl"
+            onClick={() => setIsDrawerOpen(false)}
+          >
+            &times;
+          </button>
+
+          {/* Drawer Links */}
+          <a
+            href="/courses"
+            className="text-white hover:text-gray-300"
+            onClick={() => setIsDrawerOpen(false)}
+          >
+            Course
+          </a>
+          <a
+            href="/projects"
+            className="text-white hover:text-gray-300"
+            onClick={() => setIsDrawerOpen(false)}
+          >
+            Projects
+          </a>
+          <a
+            href="/problems"
+            className="text-white hover:text-gray-300"
+            onClick={() => setIsDrawerOpen(false)}
+          >
+            Problems
+          </a>
+          <a
+            href="/blogs"
+            className="text-white hover:text-gray-300"
+            onClick={() => setIsDrawerOpen(false)}
+          >
+            Blogs
+          </a>
+          {isLoggedIn ? (
+            <button
+              onClick={() => {
+                onLogout();
+                setIsDrawerOpen(false);
+              }}
+              className="text-white hover:text-gray-300"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                onLogin();
+                setIsDrawerOpen(false);
+              }}
+              className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
+            >
+              Login
+            </button>
+          )}
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default NavigationBar;

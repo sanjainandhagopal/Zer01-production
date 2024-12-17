@@ -1,5 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import { UserPlus } from 'lucide-react';
+
+import Summary from "@/app/Course/Summary/[courseId]/page";
 
 const cardData = [
   {
@@ -63,11 +66,11 @@ const cardData = [
 export default function Cardlist() {
   return (
     <div className=" mx-auto">
-      <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 px-6 py-5 overflow-hidden scrollbar-star">
+      <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 px-6 py-5 overflow-hidden scrollbar-star ">
         {cardData.map((card) => (
           <div
             key={card.id}
-            className="flex flex-col snap-start border-y-2 rounded-3xl border-gray-100 h-full w-64 min-w-[16rem] p-5 items-center justify-center hero-card backdrop-blur-xl"
+            className="flex flex-col snap-start border-y-2 rounded-3xl border-gray-100  md:h-full w-32 min-w-[10rem] md:w-64 md:min-w-[16rem] p-5 items-center justify-center hero-card backdrop-blur-xl"
           >
             <div className="relative">
               {/* First image */}
@@ -80,7 +83,7 @@ export default function Cardlist() {
 
 
               {/* Second image */}
-              <div className="absolute top-16 left-0 z-10 p-5">
+              <div className="absolute top-10 md:top-16 left-0 z-10 p-5">
                 <Image
                   src="/next.svg"
                   width={180}
@@ -90,16 +93,16 @@ export default function Cardlist() {
               </div>
             </div>
 
-            <div className="text-lg mt-3">
+            <div className="text-sm md:text-lg mt-3 ">
               <span>{card.title}</span>
             </div>
-            <div className="text-sm text-center">{card.description}</div>
-            <div className="flex mt-3 justify-between w-full">
-              <div className="time">{card.time}</div>
-              <div className="enrollcounts">{card.enrollStatus}</div>
+            <div className="text-[10px] md:text-sm text-center hidden md:block justify-center  ">{card.description}</div>
+            <div className="flex mt-3 justify-between w-full text-sm md:px-5 ">
+              <div className="time border p-1 rounded-lg flex items-center text-[10px] md:text-sm  ">{card.time}</div>
+              <div className="enrollcounts md:border md:p-1 rounded-lg flex  items-center justify-between "> <div className=""><UserPlus className="h-[1em]" /></div> <div> 123</div></div>
             </div>
-            <div className="view mx-auto mt-3">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600">
+            <div className="mx-auto mt-3">
+              <button className=" text-[10px] md:text-lg btn" >
                 Enroll Now
               </button>
             </div>

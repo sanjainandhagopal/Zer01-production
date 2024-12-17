@@ -6,7 +6,7 @@ const cardData = [
     id: 1,
     title: "Java",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi aliquam non dolorem voluptates nemo voluptatibus quis.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     time: "24:24:24",
     enrollStatus: "Enrolled",
   },
@@ -14,7 +14,7 @@ const cardData = [
     id: 2,
     title: "JavaScript",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi aliquam non dolorem voluptates nemo voluptatibus quis.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     time: "18:15:32",
     enrollStatus: "Enrolled",
   },
@@ -22,7 +22,7 @@ const cardData = [
     id: 3,
     title: "Python",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi aliquam non dolorem voluptates nemo voluptatibus quis.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     time: "12:30:45",
     enrollStatus: "Enrolled",
   },
@@ -30,7 +30,7 @@ const cardData = [
     id: 4,
     title: "React",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi aliquam non dolorem voluptates nemo voluptatibus quis.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     time: "20:10:10",
     enrollStatus: "Enrolled",
   },
@@ -38,7 +38,7 @@ const cardData = [
     id: 5,
     title: "Node.js",
     description:
-      "Lorem elit. Modi aliquam non dolorem voluptates nemo voluptatibus quis.",
+      "Lorem elit. ",
     time: "15:20:30",
     enrollStatus: "Enrolled",
   },
@@ -51,7 +51,7 @@ export default function Projectcard() {
         {cardData.map((card) => (
           <div
             key={card.id}
-            className="flex flex-col h-full w-64 md:flex-row snap-start border-y-2 rounded-3xl border-gray-100 md:h-72 md:w-64  md:min-w-[32rem] min-w-[16rem] p-5 items-center justify-center hero-card backdrop-blur-xl"
+            className="flex  flex-row snap-start border-y-2 rounded-3xl border-gray-100 h-56 w-72  min-w-[20rem] p-5 items-center justify-center hero-card backdrop-blur-xl"
           >
             {/* Left Image */}
              <div className="relative">
@@ -62,35 +62,16 @@ export default function Projectcard() {
                             height={180}
                             alt="Course Background"
                           />
-            
-            
-                          {/* Second image */}
-                          <div className="absolute top-16 left-0 z-10 p-5">
-                            <Image
-                              src="/next.svg"
-                              width={180}
-                              height={180}
-                              alt="Overlay Image"
-                            />
-                          </div>
                         </div>
 
             {/* Right Content */}
-            <div className="md:w-2/3 md:pl-5 md:flex md:flex-col md:justify-between">
+            <div className="w-2/3 pl-5 flex flex-col justify-between">
               <div>
                 <h3 className="md:text-xl text-lg font-semibold mt-3 md:mb-2 text-center">{card.title}</h3>
                 <p className="text-gray-600 text-sm sm:text-center ">{card.description}</p>
               </div>
-
-              <div className="flex justify-between items-center mt-4">
-                <div className="text-gray-500 text-sm">{card.time}</div>
-                <div className="text-sm font-medium text-green-500">
-                  {card.enrollStatus}
-                </div>
-              </div>
-
               <div className="mt-3">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 mx-20 ">
+                <button className="text-[10px] md:text-sm btn ">
                   Enroll Now
                 </button>
               </div>
