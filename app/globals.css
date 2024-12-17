@@ -1,18 +1,21 @@
+/* Correct placement of @import */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-
 
 body {
-  font-family:  Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
   background: #000000;
   color: #ffffff;
+}
 
+.hero-card {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
 }
-.hero-card{
-  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
-}
-.hero-text{
+
+.hero-text {
   font-size: 45px;
 }

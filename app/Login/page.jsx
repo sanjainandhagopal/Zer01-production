@@ -23,7 +23,7 @@ export default function Login() {
 
             if(response.ok){
                 console.log("Login success");
-                router.push('/Home');
+                router.push('/Index');
             } else {
                 console.error(data.message || "Login failed");
             }
