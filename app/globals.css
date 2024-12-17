@@ -15,7 +15,12 @@ body {
 .hero-card {
   background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
 }
-
-.hero-text {
+.prblm-card{
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.316), rgba(255, 255, 255, 0.01))
+}
+.prblm-card:hover{
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.hero-text{
   font-size: 45px;
 }
