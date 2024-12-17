@@ -18,7 +18,6 @@ export default function Index() {
       <Projectcard/>
       <Prblmcard/>
       <Blogcard/>
-      <Summary/>
           </div>
   )
 }
