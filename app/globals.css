@@ -1,16 +1,15 @@
-/* Correct placement of @import */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-
-/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 
 body {
-  font-family: Helvetica, sans-serif;
+  font-family:  Helvetica, sans-serif;
   background: #000000;
   color: #ffffff;
-
+  padding-left: 1em ;
+  padding-right: 1em ;
 }
 
 .hero-card{
@@ -24,4 +23,754 @@ body {
 }
 .hero-text{
   font-size: 45px;
+}
+
+
+/* caticons */
+.brutalist-button {
+  border-radius: 12px;
+  padding: 0; 
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;  
+  position: relative;
+  box-shadow: 4px 4px 0px #000000;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.brutalist-button.openai {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+
+.brutalist-button::before {
+
+  /* position: absolute; */
+  left: 50%;
+  bottom: -150%;
+  border-radius: 50%;
+  transform: translateX(-50%) scale(0);
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 1;
+}
+
+.brutalist-button.openai::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+
+.brutalist-button.claude::before {
+  background-color: #e3d19c;
+}
+
+.brutalist-button:hover::before {
+  transform: translateX(-50%) scale(1);
+  
+}
+
+.brutalist-button:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.brutalist-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+ 
+}
+.brutalist-button:focus{
+  border-bottom: 3px  solid #fff2f2;  
+}
+
+.openai-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.openai-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #0f1715; /* OpenAI's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+
+
+.openai-icon {
+  width: 4em;
+  height: 4em;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.brutalist-button:hover .openai-logo {
+  animation: spin 5s linear infinite;
+  width: 4em;
+  height: 4em;
+  top: 28%;
+}
+
+
+.brutalist-button:hover .openai-icon {
+  transform: scale(0.6);
+}
+
+
+
+.button-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.3;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(2em);
+  z-index: 2;
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+}
+
+.button-text span:first-child {
+  font-size: 2em;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.button-text span:last-child {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+}
+
+.brutalist-button:hover .button-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.brutalist-button.openai:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.openai:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+
+
+
+/* cat2 */
+.brutalist-button.cloud {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.cloud::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.cloud-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.cloud-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #14252c; /* cloud's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.cloud-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .cloud-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .cloud-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.cloud:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.cloud:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* algo */
+.brutalist-button.algo {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.algo::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.algo-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.algo-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(0, 0%, 11%); /* algo's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.algo-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .algo-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .algo-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.algo:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.algo:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+
+/* maths */
+.brutalist-button.maths {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.maths::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.maths-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.maths-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(0, 0%, 11%); /* maths's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.maths-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .maths-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .maths-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.maths:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.maths:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* daily */
+.brutalist-button.daily {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.daily::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.daily-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.daily-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #14252c; /* daily's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.daily-icon {
+  width: 44px;
+  height: 44px;
+  fill: #ffffff; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.brutalist-button:hover .daily-logo {
+  /* animation: spin 5s linear infinite; */
+  overflow-x: hidden;
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+@keyframes slide-right-normal {0% { transform: translateX(0); } 100% { transform: translateX(100px);} }
+.brutalist-button:hover .daily-icon {
+  transform: scale(0.6);
+  animation: slide-right-normal 1s linear 0.5ms infinite normal none; 
+}
+.brutalist-button.daily:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.daily:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* cat3 */
+.brutalist-button.cpu {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.cpu::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.cpu-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.cpu-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #47214a6d; /* cpu's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.cpu-icon {
+  width: 44px;
+  height: 44px; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.brutalist-button:hover .cpu-logo {
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+
+
+.brutalist-button:hover .cpu-icon {
+  transform: scale(0.6);
+      
+}
+.brutalist-button.cpu:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.cpu:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+/* cat4 */
+.brutalist-button.network {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.network::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.network-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.network-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #16142c; /* network's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.network-icon {
+  width: 44px;
+  height: 44px; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.brutalist-button:hover .network-logo {
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+
+
+.brutalist-button:hover .network-icon {
+  transform: scale(0.6);
+      
+}
+.brutalist-button.network:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.network:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* cat5 */
+.brutalist-button.web {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.web::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.web-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.web-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #2c141a; /* web's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.web-icon {
+  width: 44px;
+  height: 44px; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.brutalist-button:hover .web-logo {
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+
+
+.brutalist-button:hover .web-icon {
+  transform: scale(0.6);
+      
+}
+.brutalist-button.web:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.web:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* cat6 */
+.brutalist-button.mech {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.mech::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.mech-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.mech-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #2c1e14; /* mech's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.mech-icon {
+  width: 44px;
+  height: 44px; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.brutalist-button:hover .mech-logo {
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+
+
+.brutalist-button:hover .mech-icon {
+  transform: scale(0.6);
+      
+}
+.brutalist-button.mech:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.mech:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+/* cat7 */
+.brutalist-button.iot {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+
+.brutalist-button.iot::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))
+}
+.iot-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.iot-logo {
+  align-items: center;
+  justify-content: center;
+  background-color: #1b3218; /* iot's green color */
+  border-radius: 50%; /* This creates the circular background */
+}
+.iot-icon {
+  width: 44px;
+  height: 44px; /* White color for the SVG */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.brutalist-button:hover .iot-logo {
+  height: 54px;
+  width: 54px;
+  top: 28%;
+}
+
+
+.brutalist-button:hover .iot-icon {
+  transform: scale(0.6);
+      
+}
+.brutalist-button.iot:hover .button-text {
+  color: #d3d3d3;
+}
+
+.brutalist-button.iot:hover .button-text span:last-child {
+  color: #d6cbbf;
+}
+
+
+
+@media (hover: hover) and (pointer: fine) {
+  .brutalist-button:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px #000000;
+  }
+}
+
+
+/* Custom Scrollbar: Thin Track and Star Thumb */
+.scrollbar-star::-webkit-scrollbar {
+  height: 30px; /* Horizontal scrollbar thickness */
+}
+
+.scrollbar-star::-webkit-scrollbar-track {
+  background-color: #40404039; /* Thin white line for the track */
+  border-radius: 9999px;
+  
+  height: 10px;
+  width: 20px;
+}
+
+.scrollbar-star::-webkit-scrollbar-thumb {
+  background: url("/star.svg");
+  background-repeat: no-repeat;
+   /* Ensures SVG covers the thumb */
+  background-position: center;
+  border-radius: 50%; /* Ensures thumb stays circular */
+  width: 1px; /* Thumb width */
+  height: 1px; /* Thumb height */
+}
+
+.scrollbar-star::-webkit-scrollbar-thumb:hover { 
+  color: yellow;/* Keeps hover clean */
+
+}
+
+.scrollbar-star::-webkit-scrollbar-thumb:active {
+  background-color: transparent;
+  
+}
+
+/* From Uiverse.io by portseif */ 
+.btn {
+  align-items: center;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: 0;
+  border: 0;
+  padding: 1rem;
+}
+
+.btn:before {
+  background-color: #fff;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  margin-right: 10px;
+  transition: all .42s cubic-bezier(.25,.8,.25,1);
+  width: 0;
+}
+
+.btn:hover:before {
+  background-color: #fff;
+  width: 1rem;
+}
+
+
+/* module */
+
+.wh-card {
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.wh-card:hover {
+  transform: scale(1.02);
+  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.25);
 }
