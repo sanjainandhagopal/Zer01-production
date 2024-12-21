@@ -6,11 +6,12 @@ import ModuleAssessmentForm from './Components/ModuleAssessmentForm'
 import FinalAssessmentMCQ from './Components/FinalAssessmentMCQ'
 import FinalAssessmentProgramming from './Components/FinalAssessmentProgramming'
 import ProjectForm from './Components/ProjectForm'
+import ProblemTaskForm from './ProblemSolvingComponent/ProblemTaskForm'
 
 export default function Coursepanel() {
   return (
     <div>
-        <CourseForm />
+        <ProblemTaskForm />
     </div>
   )
 }

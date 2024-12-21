@@ -1,7 +1,9 @@
-import React from 'react'
+import EditorComponent from './components/EditorComponent'
 
-export default function Compiler() {
+export default function Compiler({TestCases}) {
   return (
-    <div>Compiler</div>
+    <div>
+      <EditorComponent TestCases={TestCases} />
+    </div>
   )
 }

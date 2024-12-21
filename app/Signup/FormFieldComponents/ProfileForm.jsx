@@ -1,8 +1,12 @@
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast } from 'react-toastify';
 
 export default function ProfileForm({profileDetails}) {
-  const {firstName,
+  const router = useRouter();
+  const {
+    email,
+    firstName,
     setFirstName,
     lastName,
     setLastName,
@@ -43,7 +47,7 @@ export default function ProfileForm({profileDetails}) {
         const data = await response.json();
         if (response.ok) {
             toast.success("Registration successful!");
-            router.push("/Home")
+            router.push("/Index")
         } else {
             toast.error(data.message || "Registration failed.");
         }
