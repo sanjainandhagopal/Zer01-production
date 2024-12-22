@@ -16,7 +16,7 @@ export default function Login() {
 
         setLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+            const response = await fetch(`https://zer01-api-production.up.railway.app/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
