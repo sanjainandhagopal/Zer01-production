@@ -1,12 +1,23 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const NavigationBar = ({ isLoggedIn, onLogin, onLogout }) => {
+const NavigationBar = ({ user }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const router = useRouter();
+
+  const onLogin = () => {
+    router.push('/Login');
+  };
+
+  const onLogout = () => {
+    router.push('/Login'); // Redirect to login after logout
+  };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-transparent via-gray-800 to-transparent text-white z-50">
-      <div className="container mx-auto flex items-center justify-between px-4">
+    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-gray-900/90 to-gray-700/90 backdrop-blur-lg text-white z-50 shadow-lg">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
         {/* Left: Nav Brand */}
         <div className="flex items-center space-x-2">
           <img src="/zer01-logo.png" alt="Brand Logo" className="w-[6em]" />
@@ -14,26 +25,40 @@ const NavigationBar = ({ isLoggedIn, onLogin, onLogout }) => {
 
         {/* Middle: Nav Links */}
         <div className="hidden md:flex space-x-8">
-          <a href="/courses" className="hover:text-gray-300">Course</a>
-          <a href="/projects" className="hover:text-gray-300">Projects</a>
-          <a href="/problems" className="hover:text-gray-300">Problems</a>
-          <a href="/blogs" className="hover:text-gray-300">Blogs</a>
+          <a href="/" className="hover:text-gray-300">Home</a>
+          <a href="/Course/Catelog" className="hover:text-gray-300">Course</a>
+          <a href="#" className="hover:text-gray-300">Projects</a>
+          <a href="/Programming/Catelog" className="hover:text-gray-300">Problems</a>
+          <a href="#" className="hover:text-gray-300">Blogs</a>
         </div>
 
         {/* Right: Profile or Login */}
-        <div className="hidden md:flex items-center space-x-4">
-          {isLoggedIn ? (
-            <button
-              onClick={onLogout}
-              className="flex items-center space-x-2 hover:text-gray-300"
-            >
-              <img
-                src="/path/to/profile-icon.png"
-                alt="Profile Icon"
-                className="h-6 w-6 rounded-full"
-              />
-              <span>Logout</span>
-            </button>
+        <div className="hidden md:flex items-center space-x-4 relative">
+          {user ? (
+            <>
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="relative flex flex-col items-center"
+              >
+                <div className="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center text-white text-2xl font-semibold">
+                  {user?.name?.[0]?.toUpperCase() || '?'}
+                </div>
+              </button>
+              {isProfileOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg py-2 z-50">
+                  <div className="px-4 py-2">
+                    <p className="text-sm">Hello, {user.name}!</p>
+                  </div>
+                  <hr className="border-gray-300" />
+                  <button
+                    onClick={onLogout}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-600"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <button
               onClick={onLogin}
@@ -59,61 +84,22 @@ const NavigationBar = ({ isLoggedIn, onLogin, onLogout }) => {
 
       {/* Mobile Drawer */}
       {isDrawerOpen && (
-        <div className="absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-gray-800 via-transparent to-gray-900 backdrop-blur-lg flex flex-col items-center justify-center space-y-8 text-lg">
-          {/* Close Button */}
-          <button
-            className="absolute top-4 right-4 text-white text-2xl"
-            onClick={() => setIsDrawerOpen(false)}
-          >
-            &times;
-          </button>
-
-          {/* Drawer Links */}
-          <a
-            href="/courses"
-            className="text-white hover:text-gray-300"
-            onClick={() => setIsDrawerOpen(false)}
-          >
-            Course
-          </a>
-          <a
-            href="/projects"
-            className="text-white hover:text-gray-300"
-            onClick={() => setIsDrawerOpen(false)}
-          >
-            Projects
-          </a>
-          <a
-            href="/problems"
-            className="text-white hover:text-gray-300"
-            onClick={() => setIsDrawerOpen(false)}
-          >
-            Problems
-          </a>
-          <a
-            href="/blogs"
-            className="text-white hover:text-gray-300"
-            onClick={() => setIsDrawerOpen(false)}
-          >
-            Blogs
-          </a>
-          {isLoggedIn ? (
+        <div className="md:hidden bg-gray-800 text-white w-full py-4 space-y-4">
+          <a href="/Course/Catelog" className="block text-center hover:text-gray-300">Course</a>
+          <a href="#" className="block text-center hover:text-gray-300">Projects</a>
+          <a href="/Programming/Catelog" className="block text-center hover:text-gray-300">Problems</a>
+          <a href="#" className="block text-center hover:text-gray-300">Blogs</a>
+          {user ? (
             <button
-              onClick={() => {
-                onLogout();
-                setIsDrawerOpen(false);
-              }}
-              className="text-white hover:text-gray-300"
+              onClick={onLogout}
+              className="block w-full text-center text-red-600 hover:bg-gray-700 py-2"
             >
               Logout
             </button>
           ) : (
             <button
-              onClick={() => {
-                onLogin();
-                setIsDrawerOpen(false);
-              }}
-              className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
+              onClick={onLogin}
+              className="block w-full text-center bg-blue-600 py-2 rounded hover:bg-blue-700"
             >
               Login
             </button>

@@ -39,34 +39,33 @@ export default function Solver({ params }) {
     }, [problemId]);
 
     if (loading) {
-        return <div>Loading problem data...</div>;
+        return (
+            <div className="text-center text-lg font-semibold text-blue-600">Loading problem data...</div>
+        );
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div className="text-center text-lg font-semibold text-red-600">{error}</div>
+        );
     }
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-xl font-bold mb-4">{problem.Title}</h1>
-            <p>
-                <strong>Category:</strong> {problem.Category}
-            </p>
-            <p>
-                <strong>Description:</strong> {problem.Description}
-            </p>
-            <div>
-                <h3 className="font-bold">Test Cases:</h3>
-                <ul className="list-disc pl-5">
-                    {problem.TestCases.map((testCase, index) => (
-                        <li key={index}>
-                            <strong>Input:</strong> {testCase.Input} |{' '}
-                            <strong>Expected Output:</strong> {testCase.ExpectedOutput}
-                        </li>
-                    ))}
-                </ul>
+        <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-8">
+            <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">{problem.Title}</h1>
+            <div className="space-y-4">
+                <div className="bg-blue-50 p-4 rounded-lg shadow-md">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">Problem Overview</h2>
+                    <p className="text-gray-600"><strong>Category:</strong> {problem.Category}</p>
+                    <p className="text-gray-600"><strong>Description:</strong> {problem.Description}</p>
+                </div>
+
             </div>
-            <Compiler TestCases={problem.TestCases} />
+
+            {/* Compiler Component Section */}
+            <div className="mt-8">
+                <Compiler TestCases={problem.TestCases} />
+            </div>
         </div>
     );
 }

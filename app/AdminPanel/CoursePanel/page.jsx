@@ -11,7 +11,7 @@ import ProblemTaskForm from './ProblemSolvingComponent/ProblemTaskForm'
 export default function Coursepanel() {
   return (
     <div>
-        <ProblemTaskForm />
+        <ModuleAssessmentForm />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function McqValidator({ assessments, userId, courseId, moduleId }) {
@@ -13,6 +13,25 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);
+
+  // Shuffle array utility
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  useEffect(() => {
+    // Shuffle questions and limit to 15
+    const shuffled = shuffleArray(assessments).slice(0, 15);
+
+    // Shuffle options for each question
+    const randomizedQuestions = shuffled.map((question) => ({
+      ...question,
+      Options: shuffleArray(question.Options),
+    }));
+
+    setShuffledQuestions(randomizedQuestions);
+  }, [assessments]);
 
   const handleOptionChange = (optionValue) => {
     setSelectedAnswers({
@@ -22,7 +41,7 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
   };
 
   const handleNext = () => {
-    if (currentQuestion < assessments.length - 1) {
+    if (currentQuestion < shuffledQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
@@ -32,13 +51,13 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
     let correctCount = 0;
 
     // Calculate the score
-    assessments.forEach((mcq, index) => {
+    shuffledQuestions.forEach((mcq, index) => {
       if (selectedAnswers[index] === mcq.CorrectOption) {
         correctCount += 1;
       }
     });
 
-    const calculatedScore = Math.round((correctCount / assessments.length) * 100);
+    const calculatedScore = Math.round((correctCount / shuffledQuestions.length) * 100);
     setScore(calculatedScore);
     setIsSubmitted(true);
 
@@ -50,7 +69,6 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
     setIsUpdating(true);
 
     try {
-      // Send data to the backend to update the module progress
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/score/forCourseModule`,
         {
@@ -74,39 +92,39 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Module Assessment</h2>
-      {assessments.length > 0 ? (
+    <div className="max-w-4xl mx-auto p-6 text-gray-900 bg-white rounded-lg shadow-md">
+      <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">Module Assessment</h2>
+      {shuffledQuestions.length > 0 ? (
         <form onSubmit={handleSubmit}>
           {!isSubmitted ? (
             <>
-              <div className="mb-5">
-                <p className="font-medium mb-2">{assessments[currentQuestion].Question}</p>
-                <ul className="ml-5 text-gray-600">
-                  {assessments[currentQuestion].Options.map((option, optionIdx) => (
-                    <li key={optionIdx} className="flex items-center mb-1">
-                      <label className="inline-flex items-center cursor-pointer">
+              <div className="mb-6">
+                <p className="font-medium text-lg mb-4">{shuffledQuestions[currentQuestion].Question}</p>
+                <ul className="space-y-4 ml-5">
+                  {shuffledQuestions[currentQuestion].Options.map((option, optionIdx) => (
+                    <li key={optionIdx} className="flex items-center cursor-pointer">
+                      <label className="inline-flex items-center">
                         <input
                           type="radio"
                           name={`question-${currentQuestion}`}
                           value={option.Option}
                           checked={selectedAnswers[currentQuestion] === option.Option}
                           onChange={() => handleOptionChange(option.Option)}
-                          className="mr-2"
+                          className="form-radio text-blue-600"
                         />
-                        {option.Option}
+                        <span className="ml-3 text-gray-800">{option.Option}</span>
                       </label>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="flex space-x-4">
-                {currentQuestion < assessments.length - 1 && (
+              <div className="flex justify-between items-center mt-6">
+                {currentQuestion < shuffledQuestions.length - 1 && (
                   <button
                     type="button"
                     onClick={handleNext}
                     disabled={!selectedAnswers[currentQuestion]}
-                    className={`px-4 py-2 font-semibold rounded ${
+                    className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-200 ${
                       selectedAnswers[currentQuestion]
                         ? "bg-blue-600 text-white hover:bg-blue-700"
                         : "bg-gray-400 text-gray-700 cursor-not-allowed"
@@ -115,10 +133,10 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
                     Next
                   </button>
                 )}
-                {currentQuestion === assessments.length - 1 && (
+                {currentQuestion === shuffledQuestions.length - 1 && (
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700"
+                    className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700"
                   >
                     Submit
                   </button>
@@ -126,21 +144,21 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
               </div>
             </>
           ) : (
-            <div className="mt-4">
-              <h3 className="text-2xl font-bold text-center">Final Score: {score}%</h3>
-              <p className="text-center mt-2">
+            <div className="mt-6 text-center">
+              <h3 className="text-4xl font-semibold text-green-600">Final Score: {score}%</h3>
+              <p className="text-xl text-gray-700 mt-4">
                 {score === 100
                   ? "Congratulations! 🎉 You got everything correct!"
                   : score >= 50
                   ? "Great effort! Keep practicing!"
                   : "Don't worry, try again and improve!"}
               </p>
-              {isUpdating && <p className="text-center text-blue-500">Updating progress...</p>}
+              {isUpdating && <p className="text-blue-500 mt-4">Updating progress...</p>}
             </div>
           )}
         </form>
       ) : (
-        <p>No assessments available.</p>
+        <p className="text-center text-gray-500">No assessments available.</p>
       )}
     </div>
   );

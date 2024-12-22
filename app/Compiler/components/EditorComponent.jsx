@@ -147,7 +147,7 @@ export default function EditorComponent({ TestCases }) {
           <ResizableHandle withHandle />
           
           <ResizablePanel defaultSize={50} minSize={35} maxSize={75}>
-            <div className="space-y-3 bg-slate-300 dark:bg-slate-900 min-h-screen">
+            <div className="text-white space-y-3 bg-slate-300 dark:bg-slate-900 min-h-screen">
               <div className="flex items-center justify-between bg-slate-400 dark:bg-slate-950 px-6 py-2">
                 <h2>Input</h2>
                 <div className="space-x-2">

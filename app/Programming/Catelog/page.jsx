@@ -26,11 +26,11 @@ export default function Catelog() {
     }, []);
 
     if (loading) {
-        return <div>Loading problems...</div>;
+        return <div className="text-center text-lg font-semibold text-blue-600">Loading problems...</div>;
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div className="text-center text-lg font-semibold text-red-600">{error}</div>;
     }
 
     const handleSubmit = (id) => {
@@ -38,36 +38,31 @@ export default function Catelog() {
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-xl font-bold mb-4">Problem-Solving Catalog</h1>
+        <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+            <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Problem-Solving Catalog</h1>
             {problems.length === 0 ? (
-                <div>No problems found.</div>
+                <div className="text-center text-lg text-gray-500">No problems found.</div>
             ) : (
-                <ul>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {problems.map((problem) => (
-                        <li key={problem._id} className="mb-4 p-4 border rounded shadow">
-                            <h2 className="text-lg font-bold">{problem.Title}</h2>
-                            <p>
+                        <div key={problem._id} className="flex flex-col bg-white p-6 border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out">
+                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{problem.Title}</h2>
+                            <p className="text-gray-600 mb-3">
                                 <strong>Category:</strong> {problem.Category}
                             </p>
-                            <p>
+                            <p className="text-gray-600 mb-3">
                                 <strong>Description:</strong> {problem.Description}
                             </p>
-                            <div>
-                                <h3 className="font-bold">Test Cases:</h3>
-                                <ul className="list-disc pl-5">
-                                    {problem.TestCases.map((testCase, index) => (
-                                        <li key={index}>
-                                            <strong>Input:</strong> {testCase.Input} |{" "}
-                                            <strong>Expected Output:</strong> {testCase.ExpectedOutput}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <button onClick={() =>handleSubmit(problem._id)}>Solve</button>
-                        </li>
+                            <div className="flex-grow"></div> {/* This ensures the button is at the bottom */}
+                            <button 
+                                onClick={() => handleSubmit(problem._id)} 
+                                className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none transition duration-200 ease-in-out"
+                            >
+                                Solve
+                            </button>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );

@@ -5,8 +5,10 @@ import McqValidator from '../components/McqValidator';
 import { fetchUser } from '@/app/OperatorFunctions/userVerifier';
 import { useRouter } from 'next/navigation';
 import { FaceDetector } from '@/app/FaceTrackerAI/FaceDetector';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
 export default function CourseDetails({ params }) {
+  const handle = useFullScreenHandle();
   const resolvedParams = use(params); // Unwrap the `params` Promise
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -14,28 +16,27 @@ export default function CourseDetails({ params }) {
   const [courseData, setCourseData] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedModuleAssessment, setSelectedModuleAssessment] = useState(null);
-  const [selectedModuleId, setSelectedModuleId] = useState(null); // State to store the selected module id
+  const [selectedModuleId, setSelectedModuleId] = useState(null);
   const [proctor, setProctor] = useState(false);
-  const videoRef = useRef(null); // Single reference for the video element
+  const [expandedModule, setExpandedModule] = useState(null); // State to track expanded module
+  const videoRef = useRef(null);
   const router = useRouter();
 
   const handleProctorToggle = () => {
     setProctor((prev) => !prev);
   };
 
-  // Play or pause video when `proctor` changes
   useEffect(() => {
     if (videoRef.current) {
       proctor ? videoRef.current.play() : videoRef.current.pause();
     }
+    handle.enter();
   }, [proctor]);
 
-  // Fetch user details on mount
   useEffect(() => {
     fetchUser(setUser, setLoadingUser, setErrorUser);
   }, []);
 
-  // Fetch course data
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -56,6 +57,10 @@ export default function CourseDetails({ params }) {
     }
   }, [resolvedParams.courseId]);
 
+  const toggleModule = (moduleIndex) => {
+    setExpandedModule((prev) => (prev === moduleIndex ? null : moduleIndex));
+  };
+
   const handleVideoSelect = (videoUrl) => {
     setSelectedVideo(videoUrl);
     setSelectedModuleAssessment(null);
@@ -63,12 +68,21 @@ export default function CourseDetails({ params }) {
 
   const handleAssessmentSelect = (assessmentData, moduleId) => {
     setSelectedModuleAssessment(assessmentData);
-    setSelectedModuleId(moduleId); // Set the selected module id
+    setSelectedModuleId(moduleId);
     setSelectedVideo(null);
   };
 
   const handleAssessmentRoute = () => {
-    router.push(`/Course/FinalAssessment/${resolvedParams.courseId}`);
+    router.push(`/Course/FinalAssessment/AccessValidator/${resolvedParams.courseId}`);
+  };
+
+  const isModuleLocked = (index) => {
+    if (index === 0) return false; // The first module is always unlocked
+    const previousModule = user?.CourseEnrollments?.find(
+      (enrollment) => enrollment.CourseId === courseData._id
+    )?.Modules[index - 1];
+    if (!previousModule || previousModule.Status !== 'completed') return false;
+    return true;
   };
 
   if (!courseData) {
@@ -78,91 +92,117 @@ export default function CourseDetails({ params }) {
   const { Modules = [], FinalAssessment = {} } = courseData;
 
   return (
-    <div className="flex">
-      {/* Left Panel */}
-      <div className="w-1/4 bg-gray-100 p-5 min-h-screen border-r">
-        <h2 className="text-xl font-bold mb-4">Modules</h2>
-        <ul className="space-y-4">
-          {Modules.map((module, index) => (
-            <li key={index} className="p-3 bg-white rounded-md shadow-md">
-              <h3 className="text-lg font-semibold mb-2 text-gray-700">
-                Module {index + 1}: {module.Title}
-              </h3>
-              {module.Content?.length > 0 && (
-                <div>
-                  <h4 className="font-medium text-gray-600 mb-1">Content:</h4>
-                  <ul className="list-disc list-inside text-sm text-gray-500">
-                    {module.Content.map((content, idx) => (
-                      <li
-                        key={idx}
-                        className="ml-3 cursor-pointer hover:text-blue-600"
-                        onClick={() => handleVideoSelect(content.Video)}
-                      >
-                        {content.Title} - {content.Duration} seconds
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {module.ModuleAssessment?.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="font-medium text-gray-600 mb-1">Module Assessment:</h4>
-                  <ul className="list-disc list-inside text-sm text-blue-500 cursor-pointer">
-                    <li onClick={() => handleAssessmentSelect(module.ModuleAssessment, module._id)}>
-                      <span className="hover:underline">View Module Assessment</span>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-6">
-          <button
-            className="py-2 px-2 bg-blue-500 rounded-lg"
-            onClick={handleAssessmentRoute}
-          >
-            Take Assessment
-          </button>
+    <FullScreen handle={handle}>
+      <div className="flex flex-col lg:flex-row">
+        {/* Left Panel */}
+        <div className="lg:w-1/4 bg-gray-50 p-5 min-h-screen border-r shadow-sm">
+          <h2 className="text-2xl font-bold text-blue-600 mb-6">Course Modules</h2>
+          <ul className="space-y-4">
+            {Modules.map((module, index) => {
+              const locked = isModuleLocked(index);
+
+              return (
+                <li
+                  key={index}
+                  className={`p-4 rounded-lg shadow-md transition-all ${
+                    locked ? 'bg-gray-200 cursor-not-allowed' : 'bg-white hover:shadow-lg'
+                  }`}
+                >
+                  <div
+                    className={`flex justify-between items-center ${
+                      locked ? 'cursor-not-allowed' : 'cursor-pointer'
+                    }`}
+                    onClick={() => !locked && toggleModule(index)}
+                  >
+                    <h3
+                      className={`text-lg font-medium ${
+                        locked ? 'text-gray-500' : 'text-blue-600'
+                      }`}
+                    >
+                      Module {index + 1}: {module.Title}
+                    </h3>
+                    <span className="text-lg font-bold">
+                      {expandedModule === index ? '-' : '+'}
+                    </span>
+                  </div>
+                  {expandedModule === index && !locked && (
+                    <div className="mt-4">
+                      {module.Content?.length > 0 && (
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Content:</h4>
+                          <ul className="list-disc list-inside text-sm text-gray-600">
+                            {module.Content.map((content, idx) => (
+                              <li
+                                key={idx}
+                                className="ml-3 cursor-pointer hover:text-blue-600"
+                                onClick={() => handleVideoSelect(content.Video)}
+                              >
+                                {content.Title} - {content.Duration} seconds
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {module.ModuleAssessment?.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="font-medium text-gray-700 mb-2">Module Assessment:</h4>
+                          <ul className="list-disc list-inside text-sm text-blue-500 cursor-pointer">
+                            <li onClick={() => handleAssessmentSelect(module.ModuleAssessment, module._id)}>
+                              <span className="hover:underline">View Module Assessment</span>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          <div className="mt-8">
+            <button
+              className="py-3 px-4 bg-blue-500 text-white rounded-lg w-full hover:bg-blue-600 transition-all"
+              onClick={handleAssessmentRoute}
+            >
+              Take Final Assessment
+            </button>
+          </div>
+          <FaceDetector courseVideoRef={videoRef} proctor={proctor} />
+        </div>
+
+        {/* Right Panel */}
+        <div className="lg:w-3/4 p-8 bg-white shadow-sm min-h-screen">
+          {selectedVideo && (
+            <VideoPlayer selectedVideo={selectedVideo} videoRef={videoRef} />
+          )}
+
+          {selectedModuleAssessment && (
+            <div className="mt-10">
+              <McqValidator
+                assessments={selectedModuleAssessment}
+                userId={user?.id}
+                courseId={resolvedParams.courseId}
+                moduleId={selectedModuleId}
+              />
+            </div>
+          )}
+
+          {!selectedVideo && !selectedModuleAssessment && (
+            <div className="text-gray-500 text-center mt-10">
+              Select a video or module assessment to display.
+            </div>
+          )}
+
+          <div className="mt-10 flex justify-center">
+            <button
+              className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+              onClick={handleProctorToggle}
+            >
+              {proctor ? 'Pause Course' : 'Resume Course'}
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Right Panel */}
-      <div className="w-3/4 p-10">
-        <h1 className="text-3xl font-bold mb-4">{courseData.Title}</h1>
-        <p className="text-gray-700 mb-6">{courseData.Description}</p>
-        <h2 className="text-2xl font-semibold mb-2">Category: {courseData.Category}</h2>
-        <h3 className="text-lg mb-2">Price: ${courseData.Price}</h3>
-        <p className="text-gray-500 mb-6">Duration: {courseData.Duration}</p>
-
-        {selectedVideo && (
-          <VideoPlayer selectedVideo={selectedVideo} videoRef={videoRef} />
-        )}
-
-        {selectedModuleAssessment && (
-          <div className="mt-10">
-            <McqValidator
-              assessments={selectedModuleAssessment}
-              userId={user?.id}
-              courseId={resolvedParams.courseId}
-              moduleId={selectedModuleId} // Ensure the moduleId is passed correctly here
-            />
-          </div>
-        )}
-
-        {!selectedVideo && !selectedModuleAssessment && (
-          <div className="text-gray-500">Select a video or module assessment to display.</div>
-        )}
-
-        <button
-          className="p-2 bg-blue-500 rounded-md"
-          onClick={handleProctorToggle}
-        >
-          {proctor ? 'Pause course' : 'Resume course'}
-        </button>
-
-        <FaceDetector courseVideoRef={videoRef} proctor={proctor} />
-      </div>
-    </div>
+    </FullScreen>
   );
 }

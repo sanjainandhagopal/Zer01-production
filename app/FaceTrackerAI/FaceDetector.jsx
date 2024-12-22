@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as faceapi from "face-api.js";
 
 export const FaceDetector = ({ courseVideoRef, proctor }) => {
@@ -6,108 +6,98 @@ export const FaceDetector = ({ courseVideoRef, proctor }) => {
   const [isFaceDetected, setIsFaceDetected] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
+  const [chatbotQuestion, setChatbotQuestion] = useState("");
 
-  const closeChatbot = () => {
+  const distractionQuestions = [
+    "What are you thinking about right now?",
+    "Can you describe what just distracted you?",
+    "Do you feel focused enough to continue?",
+    "What task or thought pulled your attention away?",
+    "How can you refocus on the course content?",
+  ];
+
+  const generateRandomQuestion = () => {
+    const randomIndex = Math.floor(Math.random() * distractionQuestions.length);
+    setChatbotQuestion(distractionQuestions[randomIndex]);
+  };
+
+  const closeChatbot = useCallback(() => {
     setIsChatbotVisible(false);
     setCounter(0);
-    if(courseVideoRef?.courrent){
-      courseVideoRef?.current.play();
+    if (courseVideoRef?.current && courseVideoRef.current.paused) {
+      courseVideoRef.current.play();
     }
-  };
+  }, [courseVideoRef]);
 
   useEffect(() => {
     let detectionTimer = null;
-    let chatbotTimer = null;
 
     if (proctor) {
       if (!isFaceDetected) {
         detectionTimer = setInterval(() => {
           setCounter((prev) => prev + 1);
         }, 1000);
+      }
 
-        if (counter >= 5) {
-          chatbotTimer = setTimeout(() => {
-            if (courseVideoRef?.current) {
-              courseVideoRef.current.pause();
-            }
-            setIsChatbotVisible(true);
-          }, 0);
-        }
-      } else {
+      if (counter >= 5) {
+        setIsChatbotVisible(true);
+        generateRandomQuestion();
+        if (courseVideoRef?.current) courseVideoRef.current.pause();
         setCounter(0);
-        clearTimeout(chatbotTimer);
       }
     } else {
-      // Pause the video when proctoring is disabled
-      if (courseVideoRef?.current) {
-        courseVideoRef.current.pause();
-      }
+      clearInterval(detectionTimer);
       setCounter(0);
       setIsChatbotVisible(false);
     }
 
-    return () => {
-      clearInterval(detectionTimer);
-      clearTimeout(chatbotTimer);
-    };
-  }, [isFaceDetected, counter, proctor]);
+    return () => clearInterval(detectionTimer);
+  }, [isFaceDetected, counter, proctor, courseVideoRef]);
 
   useEffect(() => {
+    const loadModels = async () => {
+      try {
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+          faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+          faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+        ]);
+      } catch (error) {
+        console.error("Error loading face-api.js models:", error);
+      }
+    };
+
     const startVideo = () => {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((stream) => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
+          if (videoRef.current) videoRef.current.srcObject = stream;
         })
-        .catch((err) => console.error("Error accessing webcam: ", err));
+        .catch((err) => console.error("Error accessing webcam:", err));
     };
 
-    const loadModels = async () => {
-      const apiEndpoint = "http://localhost:5000/face/models";
-
-      try {
-        await faceapi.nets.tinyFaceDetector.loadFromUri(apiEndpoint);
-        await faceapi.nets.faceLandmark68Net.loadFromUri(apiEndpoint);
-        await faceapi.nets.faceRecognitionNet.loadFromUri(apiEndpoint);
-        await faceapi.nets.faceExpressionNet.loadFromUri(apiEndpoint);
-
-        startVideo();
-      } catch (error) {
-        console.error("Error loading models: ", error);
-      }
-    };
-
-    loadModels();
+    loadModels().then(startVideo);
   }, []);
 
   useEffect(() => {
-    const handleVideoPlay = () => {
-      const detectionInterval = setInterval(async () => {
-        if (videoRef.current) {
+    let detectionInterval = null;
+
+    if (videoRef.current && proctor) {
+      detectionInterval = setInterval(async () => {
+        try {
           const detections = await faceapi.detectAllFaces(
             videoRef.current,
             new faceapi.TinyFaceDetectorOptions()
           );
-
           setIsFaceDetected(detections.length > 0);
+        } catch (error) {
+          console.error("Error detecting faces:", error);
         }
-      }, 100);
-
-      return () => clearInterval(detectionInterval);
-    };
-
-    if (videoRef.current) {
-      videoRef.current.addEventListener("play", handleVideoPlay);
+      }, 500); // Run every 500ms
     }
 
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener("play", handleVideoPlay);
-      }
-    };
-  }, []);
+    return () => clearInterval(detectionInterval);
+  }, [proctor]);
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -117,7 +107,6 @@ export const FaceDetector = ({ courseVideoRef, proctor }) => {
         height="560"
         autoPlay
         muted
-        controls={!proctor} // Disable manual controls when proctoring is enabled
         className={`rounded-full w-[100px] h-[100px] border-4 shadow-lg ${
           isFaceDetected ? "border-green-500" : "border-red-500"
         }`}
@@ -127,30 +116,31 @@ export const FaceDetector = ({ courseVideoRef, proctor }) => {
       </p>
       <p className="mt-1 text-sm text-gray-500">Counter: {counter}</p>
 
-      {/* Chatbot UI */}
       {isChatbotVisible && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            closeChatbot();
-          }}
-          className="fixed bottom-5 right-5 w-80 p-4 bg-white border border-gray-300 rounded-lg shadow-xl"
-        >
-          <h4 className="text-lg font-semibold text-gray-800 mb-2">Zer01Bot</h4>
-          <h5>I think you are distracted somewhere else...</h5>
-          <input
-            type="text"
-            placeholder="Type your thought"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <button
-            type="submit"
-            className="w-full bubble-gradient bg-blue-500 text-white font-semibold py-2 rounded-lg hover:zn-text transition"
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-80 flex justify-center items-center z-50">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              closeChatbot();
+            }}
+            className="w-2/3 h-2/3 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-xl p-6 flex flex-col justify-center items-center space-y-4"
           >
-            Respond
-          </button>
-        </form>
+            <h4 className="text-2xl font-semibold text-gray-800 mb-4">Zer01Bot</h4>
+            <p className="text-lg text-center">{chatbotQuestion}</p>
+            <input
+              type="text"
+              placeholder="Type your response..."
+              required
+              className="w-3/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            <button
+              type="submit"
+              className="w-1/3 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+            >
+              Respond
+            </button>
+          </form>
+        </div>
       )}
     </div>
   );
