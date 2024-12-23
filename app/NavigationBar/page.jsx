@@ -16,8 +16,9 @@ const NavigationBar = ({ user }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-gray-900/90 to-gray-700/90 backdrop-blur-lg text-white z-50 shadow-lg">
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+    <div className="w-full flex flex-row justify-center mt-10">
+    <nav className="fixed top-0 mt-2 w-2/3 bg-gradient-to-r from-gray-500/90 to-gray-900/90 backdrop-blur-lg text-white z-50 shadow-lg rounded-full">
+      <div className="container mx-auto h-20 flex items-center justify-between px-4">
         {/* Left: Nav Brand */}
         <div className="flex items-center space-x-2">
           <img src="/zer01-logo.png" alt="Brand Logo" className="w-[6em]" />
@@ -107,6 +108,7 @@ const NavigationBar = ({ user }) => {
         </div>
       )}
     </nav>
+    </div>
   );
 };
 

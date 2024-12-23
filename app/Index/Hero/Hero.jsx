@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Smile } from 'lucide-react';
 
-export default function Hero() {
+export default function Hero({user}) {
   return (
     <div>
     <div className="flex flex-col md:flex-row items-center mt-20 max-h-screen">
@@ -17,7 +17,7 @@ export default function Hero() {
         </div>
         <div className="flex flex-col md:flex-row mt-10 items-center">
           <button className="flex justify-center w-48 p-2 bg-gradient-to-l from-teal-500 via-purple-500 to-red-500 text-transparent bg-clip-text">
-            <div className="text-xl">Hello Buddy</div>
+            <div className="text-xl">Hello {user ? user.name : "Buddy"}</div>
             <Smile className="text-white mt-1 ml-2" />
           </button>
           <button className="mt-4 md:mt-0 md:ml-10 bg-gradient-to-l from-teal-600 via-purple-600 to-red-600 px-4 rounded-lg">

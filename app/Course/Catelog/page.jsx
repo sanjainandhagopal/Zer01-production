@@ -36,12 +36,12 @@ export default function Catelog() {
   if (errorCourses) return <div>{errorCourses}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-black">
       {/* Navigation Bar */}
       <NavigationBar user={user} />
 
       {/* Page Header */}
-      <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 text-white py-10">
+      <div className="bg-black text-white py-10 mt-10">
         <h2 className="text-center text-3xl font-bold">Course Catalog</h2>
         <p className="text-center mt-2 text-lg">Explore our wide range of courses designed just for you!</p>
       </div>
@@ -52,23 +52,28 @@ export default function Catelog() {
           courses.map((course) => (
             <div
               key={course._id}
-              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="shadow-lg hover:shadow-xl transition-shadow duration-300 snap-start border-y-2 rounded-2xl border-gray-100 backdrop-blur-xl text-gray-100"
             >
-              {/* Course Header */}
-              <div className="bg-indigo-500 text-white rounded-t-lg p-4">
-                <h3 className="text-lg font-bold">{course.Title}</h3>
-                <p className="text-sm mt-1">{course.Category}</p>
+              {/* Course Header with Background Image */}
+              <div
+                className="h-40 bg-cover bg-center bg-no-repeat rounded-t-2xl flex flex-col justify-center p-4"
+                style={{
+                  backgroundImage: "url('/ccourse.png')", // Replace with your image path
+                }}
+              >
+                <h3 className="text-xl font-bold text-white">{course.Title}</h3>
+                <p className="text-sm font-medium text-gray-300 mt-1">{course.Category}</p>
               </div>
 
               {/* Course Body */}
               <div className="p-4">
-                <p className="text-gray-700 text-sm mb-2">
+                <p className="text-sm mb-2">
                   <strong>Description:</strong> {course.Description}
                 </p>
-                <p className="text-gray-700 text-sm mb-2">
+                <p className="text-sm mb-2">
                   <strong>Duration:</strong> {course.Duration}
                 </p>
-                <p className="text-gray-700 text-sm mb-4">
+                <p className="text-sm mb-4">
                   <strong>Price:</strong> ${course.Price}
                 </p>
                 <button

@@ -68,7 +68,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-6">
+    <div className="h-screen w-full flex items-center justify-center p-6">
       <ToastContainer />
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row overflow-hidden">
         {/* Left Section */}
@@ -88,8 +88,8 @@ export default function Signup() {
         </div>
 
         {/* Right Section */}
-        <div className="flex-1 bg-gradient-to-br from-indigo-600 to-purple-700 p-6 lg:p-10 flex flex-col items-center justify-center text-white">
-          <h2 className="text-xl lg:text-2xl font-semibold mb-4">Mirror Preview</h2>
+        <div className="flex-1 bg-gray-200 p-6 lg:p-10 flex flex-col items-center justify-center text-white">
+          <h2 className="text-gray-800 text-xl lg:text-2xl font-semibold mb-4">Mirror Preview</h2>
           <MirrorForm mirrorDetails={mirrorDetails} />
         </div>
       </div>

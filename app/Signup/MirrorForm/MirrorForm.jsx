@@ -17,7 +17,7 @@ export default function MirrorForm({ mirrorDetails }) {
       {/* Profile Section */}
       <div className="flex flex-col items-center mb-6">
         <div className="w-20 h-20 bg-indigo-500 rounded-full flex items-center justify-center text-white text-2xl font-semibold">
-          {firstName?.[0]?.toUpperCase() || '?'}
+          {firstName?.[0]?.toUpperCase() || 'Zer01'}
         </div>
         <h3 className="mt-3 text-xl font-semibold">{firstName || 'Guest'}</h3>
         <p className="text-sm text-gray-600">{email || 'No email provided'}</p>

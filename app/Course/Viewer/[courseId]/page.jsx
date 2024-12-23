@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useRef, use } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import VideoPlayer from '../components/VideoPlayer';
 import McqValidator from '../components/McqValidator';
 import { fetchUser } from '@/app/OperatorFunctions/userVerifier';
@@ -7,24 +7,21 @@ import { useRouter } from 'next/navigation';
 import { FaceDetector } from '@/app/FaceTrackerAI/FaceDetector';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
-export default function CourseDetails({ params }) {
+export default function CourseDetails({ params: paramsPromise }) {
   const handle = useFullScreenHandle();
-  const resolvedParams = use(params); // Unwrap the `params` Promise
   const [user, setUser] = useState(null);
-  const [loadingUser, setLoadingUser] = useState(true);
-  const [errorUser, setErrorUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [courseData, setCourseData] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedModuleAssessment, setSelectedModuleAssessment] = useState(null);
   const [selectedModuleId, setSelectedModuleId] = useState(null);
   const [proctor, setProctor] = useState(false);
-  const [expandedModule, setExpandedModule] = useState(null); // State to track expanded module
+  const [expandedModule, setExpandedModule] = useState(null);
+  const [params, setParams] = useState(null);
   const videoRef = useRef(null);
   const router = useRouter();
 
-  const handleProctorToggle = () => {
-    setProctor((prev) => !prev);
-  };
+  const handleProctorToggle = () => setProctor((prev) => !prev);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -34,14 +31,33 @@ export default function CourseDetails({ params }) {
   }, [proctor]);
 
   useEffect(() => {
-    fetchUser(setUser, setLoadingUser, setErrorUser);
-  }, []);
+    const fetchData = async () => {
+      try {
+        // Fetch params and user in parallel
+        const [resolvedParams, fetchedUser] = await Promise.all([
+          paramsPromise,
+          new Promise((resolve) => fetchUser(resolve, () => resolve(null))),
+        ]);
+
+        setParams(resolvedParams);
+        setUser(fetchedUser);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [paramsPromise]);
 
   useEffect(() => {
     const fetchCourse = async () => {
+      if (!params?.courseId) return;
+
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/resource/courseData/${resolvedParams.courseId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/resource/courseData/${params.courseId}`
         );
         if (!response.ok) throw new Error('Failed to fetch course data');
 
@@ -52,10 +68,8 @@ export default function CourseDetails({ params }) {
       }
     };
 
-    if (resolvedParams?.courseId) {
-      fetchCourse();
-    }
-  }, [resolvedParams.courseId]);
+    fetchCourse();
+  }, [params]);
 
   const toggleModule = (moduleIndex) => {
     setExpandedModule((prev) => (prev === moduleIndex ? null : moduleIndex));
@@ -73,20 +87,29 @@ export default function CourseDetails({ params }) {
   };
 
   const handleAssessmentRoute = () => {
-    router.push(`/Course/FinalAssessment/AccessValidator/${resolvedParams.courseId}`);
+    router.push(`/Course/FinalAssessment/AccessValidator/${params.courseId}`);
   };
 
+  // Locking logic for modules based on the user's progress
   const isModuleLocked = (index) => {
-    if (index === 0) return false; // The first module is always unlocked
-    const previousModule = user?.CourseEnrollments?.find(
-      (enrollment) => enrollment.CourseId === courseData._id
-    )?.Modules[index - 1];
-    if (!previousModule || previousModule.Status !== 'completed') return false;
-    return true;
+    if (index === 0) return false; // First module is always unlocked
+
+    const enrollment = user?.courseEnrollments?.find(
+      (enrollment) => enrollment.CourseId.toString() === courseData._id.toString()
+    );
+
+    if (!enrollment) return true; // If the user is not enrolled, lock all modules
+
+    const previousModule = enrollment.Modules[index - 1];
+    return !(previousModule && previousModule.Status === 'completed');
   };
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
 
   if (!courseData) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <div className="text-center py-10">No course data found.</div>;
   }
 
   const { Modules = [], FinalAssessment = {} } = courseData;
@@ -95,7 +118,7 @@ export default function CourseDetails({ params }) {
     <FullScreen handle={handle}>
       <div className="flex flex-col lg:flex-row">
         {/* Left Panel */}
-        <div className="lg:w-1/4 bg-gray-50 p-5 min-h-screen border-r shadow-sm">
+        <div className="lg:w-1/4 bg-gray-900 p-5 min-h-screen border-r shadow-sm">
           <h2 className="text-2xl font-bold text-blue-600 mb-6">Course Modules</h2>
           <ul className="space-y-4">
             {Modules.map((module, index) => {
@@ -105,7 +128,7 @@ export default function CourseDetails({ params }) {
                 <li
                   key={index}
                   className={`p-4 rounded-lg shadow-md transition-all ${
-                    locked ? 'bg-gray-200 cursor-not-allowed' : 'bg-white hover:shadow-lg'
+                    locked ? 'bg-gray-950 cursor-not-allowed' : 'bg-white hover:shadow-lg'
                   }`}
                 >
                   <div
@@ -161,17 +184,29 @@ export default function CourseDetails({ params }) {
           </ul>
           <div className="mt-8">
             <button
-              className="py-3 px-4 bg-blue-500 text-white rounded-lg w-full hover:bg-blue-600 transition-all"
-              onClick={handleAssessmentRoute}
+              className={`py-3 px-4 rounded-lg w-full transition-all ${
+                Modules[Modules.length - 1]?.Status === 'completed'
+                  ? 'bg-blue-500 text-white hover:bg-blue-600'
+                  : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+              }`}
+              onClick={() => {
+                if (Modules[Modules.length - 1]?.Status === 'completed') {
+                  handleAssessmentRoute();
+                } else {
+                  alert('You need to complete all modules to take the final assessment.');
+                }
+              }}
+              disabled={Modules[Modules.length - 1]?.Status !== 'completed'}
             >
               Take Final Assessment
             </button>
           </div>
+
           <FaceDetector courseVideoRef={videoRef} proctor={proctor} />
         </div>
 
         {/* Right Panel */}
-        <div className="lg:w-3/4 p-8 bg-white shadow-sm min-h-screen">
+        <div className="lg:w-3/4 p-8 shadow-sm min-h-screen">
           {selectedVideo && (
             <VideoPlayer selectedVideo={selectedVideo} videoRef={videoRef} />
           )}
@@ -181,7 +216,7 @@ export default function CourseDetails({ params }) {
               <McqValidator
                 assessments={selectedModuleAssessment}
                 userId={user?.id}
-                courseId={resolvedParams.courseId}
+                courseId={params?.courseId}
                 moduleId={selectedModuleId}
               />
             </div>
