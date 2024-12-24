@@ -94,15 +94,31 @@ export default function CourseDetails({ params: paramsPromise }) {
   const isModuleLocked = (index) => {
     if (index === 0) return false; // First module is always unlocked
 
-    const enrollment = user?.courseEnrollments?.find(
-      (enrollment) => enrollment.CourseId.toString() === courseData._id.toString()
+    const enrollmentData = user?.courseEnrollments?.find(
+      (enrollment) => {
+        return enrollment.CourseId._id.toString() == courseData._id.toString();
+      }
     );
 
-    if (!enrollment) return true; // If the user is not enrolled, lock all modules
+    if (!enrollmentData) return true; // If the user is not enrolled, lock all modules
 
-    const previousModule = enrollment.Modules[index - 1];
+    const previousModule = enrollmentData.Modules[index - 1];
     return !(previousModule && previousModule.Status === 'completed');
   };
+
+  const isAssessmentLoked = () => {
+    const enrollmentData = user?.courseEnrollments?.find(
+      (enrollment) => {
+        console.log(`Inside the Assessment lock : ${courseData._id.toString()}`)
+        return enrollment.CourseId._id.toString() == courseData._id.toString();
+      }
+    );
+
+    if (!enrollmentData) return true; // If the user is not enrolled, Final assessment is locked
+
+    const lastModule = enrollmentData.Modules[enrollmentData.Modules.length - 1];
+    return !(lastModule && lastModule.Status === 'completed');
+  }
 
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;
@@ -185,18 +201,18 @@ export default function CourseDetails({ params: paramsPromise }) {
           <div className="mt-8">
             <button
               className={`py-3 px-4 rounded-lg w-full transition-all ${
-                Modules[Modules.length - 1]?.Status === 'completed'
-                  ? 'bg-blue-500 text-white hover:bg-blue-600'
-                  : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                isAssessmentLoked()
+                  ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
               }`}
               onClick={() => {
-                if (Modules[Modules.length - 1]?.Status === 'completed') {
+                if (!isAssessmentLoked()) {
                   handleAssessmentRoute();
                 } else {
                   alert('You need to complete all modules to take the final assessment.');
                 }
               }}
-              disabled={Modules[Modules.length - 1]?.Status !== 'completed'}
+              disabled={isAssessmentLoked()}
             >
               Take Final Assessment
             </button>
