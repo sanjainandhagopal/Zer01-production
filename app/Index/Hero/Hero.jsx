@@ -1,8 +1,19 @@
 import React from 'react'
 import Image from 'next/image'
 import { Smile } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Hero({user}) {
+  const route = useRouter();
+
+  const handleRouteCourse = () => {
+    route.push("/Course/Catelog")
+  }
+
+  const handleRouteProblem = () => {
+    route.push("/Programming/Catelog")
+  }
+
   return (
     <div>
     <div className="flex flex-col md:flex-row items-center mt-20 max-h-screen">
@@ -16,19 +27,18 @@ export default function Hero({user}) {
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Like Never Before.
         </div>
         <div className="flex flex-col md:flex-row mt-10 items-center">
-          <button className="flex justify-center w-48 p-2 bg-gradient-to-l from-teal-500 via-purple-500 to-red-500 text-transparent bg-clip-text">
+          <button className="flex justify-center w-fit p-2 bg-gradient-to-l from-teal-500 via-purple-500 to-red-500 text-transparent bg-clip-text">
             <div className="text-xl">Hello {user ? user.name : "Buddy"}</div>
             <Smile className="text-white mt-1 ml-2" />
-          </button>
-          <button className="mt-4 md:mt-0 md:ml-10 bg-gradient-to-l from-teal-600 via-purple-600 to-red-600 px-4 rounded-lg">
-            <div>Explore</div>
           </button>
         </div>
       </div>
   
       {/* Right Section - Hidden in Phone View */}
       <div className="hidden md:flex mx-auto">
-        <div className="z-20 mt-10 flex flex-row -mr-10">
+        <div
+          
+          className="z-20 mt-10 flex flex-row -mr-10">
           <div>
             <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
               {/* Image Section */}
@@ -48,7 +58,9 @@ export default function Hero({user}) {
           </div>
         </div>
   
-        <div className="z-30 flex flex-row">
+        <div 
+          onClick={handleRouteCourse}
+          className="z-30 flex flex-row">
           <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
             {/* Image Section */}
             <div className="p-2">
@@ -66,7 +78,9 @@ export default function Hero({user}) {
           </div>
         </div>
   
-        <div className="z-0 mt-20 flex flex-row -ml-10">
+        <div 
+          onClick={handleRouteProblem}
+          className="z-0 mt-20 flex flex-row -ml-10">
           <div className="">
             <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
               {/* Image Section */}

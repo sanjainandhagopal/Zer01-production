@@ -2,12 +2,14 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { Puff } from 'react-loader-spinner';
 import { toast, ToastContainer } from 'react-toastify';
+import { Slab } from 'react-loading-indicators';
 
 export default function ProfileForm({ profileDetails }) {
   const [loading, setLoading] = useState(false); // Track loading state
   const router = useRouter();
   const {
     email,
+    faceData,
     firstName,
     setFirstName,
     lastName,
@@ -39,6 +41,7 @@ export default function ProfileForm({ profileDetails }) {
         credentials: "include",
         body: JSON.stringify({
           email,
+          faceData,
           firstName,
           lastName,
           password,
@@ -51,7 +54,7 @@ export default function ProfileForm({ profileDetails }) {
       const data = await response.json();
       if (response.ok) {
         toast.success("Registration successful!");
-        router.push("/"); // Redirect on success
+        router.push("/Login"); // Redirect on success
       } else {
         toast.error(data.message || "Registration failed.");
       }
@@ -64,8 +67,18 @@ export default function ProfileForm({ profileDetails }) {
 
   return (
     <div className="bg-gray-50 p-8 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
+      {/* Slab Loader */}
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+          <div style={{ transform: 'rotate(180deg)' }}>
+            <Slab color="#0e1c8e" size="large" text="" textColor="" />
+          </div>
+        </div>
+      )}
+
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Register Your Profile</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* First Name Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">First Name</label>
           <input
@@ -79,6 +92,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Last Name Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Last Name</label>
           <input
@@ -92,6 +106,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Password Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Password</label>
           <input
@@ -105,6 +120,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Confirm Password Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
           <input
@@ -118,6 +134,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Mobile Number Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
           <input
@@ -131,6 +148,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Date of Birth Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
           <input
@@ -143,6 +161,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Profession Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Profession</label>
           <input
@@ -156,6 +175,7 @@ export default function ProfileForm({ profileDetails }) {
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
           />
         </div>
+        {/* Organization Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">Organization</label>
           <input

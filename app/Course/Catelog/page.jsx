@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"; // Import Next.js router
 import { fetchCourses } from "@/app/OperatorFunctions/courseProvider";
 import { fetchUser } from "@/app/OperatorFunctions/userVerifier";
 import NavigationBar from "@/app/NavigationBar/page";
+import { Slab } from "react-loading-indicators";
 
 export default function Catelog() {
   const [user, setUser] = useState(null);
@@ -15,9 +16,10 @@ export default function Catelog() {
   const [errorCourses, setErrorCourses] = useState(null);
 
   const router = useRouter(); // Initialize Next.js router
+  const [loading, setLoading] = useState(false);
 
   // Fetch user details on mount
-  useEffect(() => {
+  useEffect( () => {
     fetchUser(setUser, setLoadingUser, setErrorUser);
   }, []);
 
@@ -28,15 +30,29 @@ export default function Catelog() {
 
   // Navigate to the course details page
   const handleViewCourse = (id) => {
+    setLoading(true);
     router.push(`/Course/Summary/${id}`); // Navigate to dynamic route `/course/[id]`
   };
 
-  if (loadingUser || loadingCourses) return <div>Loading...</div>;
-  if (errorUser) return <div>{errorUser}</div>;
+  if (loadingUser || loadingCourses) 
+  return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <Slab color="#0e1c8e" size="large" text="" textColor="" />
+            </div>
+          </div>;
+  if (errorUser) return router.push(`/Login`);
   if (errorCourses) return <div>{errorCourses}</div>;
 
   return (
     <div className="min-h-screen bg-black">
+      {/* Full-Page Loader */}
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+          <div style={{ transform: 'rotate(180deg)' }}>
+            <Slab color="#0e1c8e" size="large" text="" textColor="" />
+          </div>
+        </div>
+      )}
       {/* Navigation Bar */}
       <NavigationBar user={user} />
 

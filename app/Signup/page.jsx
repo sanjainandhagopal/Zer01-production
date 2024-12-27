@@ -6,12 +6,15 @@ import OtpForm from './FormFieldComponents/OtpForm';
 import ProfileForm from './FormFieldComponents/ProfileForm';
 import { useRouter } from 'next/navigation';
 import { ToastContainer } from 'react-toastify';
+import FaceLandMarkTaker from './FormFieldComponents/FaceLandMarkTaker';
 
 export default function Signup() {
+  const [faceData, setFaceData] = useState(null);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [verify, setVerify] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [faceVarify, setFaceVerify] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
@@ -36,8 +39,14 @@ export default function Signup() {
     setIsVerified
   };
 
+  const FaceDetails = {
+    setFaceData,
+    setFaceVerify
+  };
+
   const profileDetails = {
     email,
+    faceData,
     firstName,
     setFirstName,
     lastName,
@@ -79,10 +88,13 @@ export default function Signup() {
           {!verify && (
             <EmailForm emailDetails={emailDetails} />
           )}
-          {verify && !isVerified && (
+          {verify && !isVerified && !faceVarify && (
             <OtpForm otpDetails={otpDetails} />
           )}
-          {isVerified && (
+          {isVerified && !faceVarify &&(
+            <FaceLandMarkTaker FaceDetails={FaceDetails} />
+          )}
+          {faceVarify && (
             <ProfileForm profileDetails={profileDetails} />
           )}
         </div>

@@ -1,12 +1,14 @@
-  import React from 'react';
-  import { Cloud, Cpu, Network, SquareDashedBottomCode, PencilRuler, CircuitBoard } from 'lucide-react';
+import React from 'react';
+import { Cloud, Cpu, Network, SquareDashedBottomCode, PencilRuler, CircuitBoard } from 'lucide-react';
 
-  export default function Categories() {
+  export default function Categories({setCategory}) {
     return (
       <div className='container px-5 mx-auto mt-8'>
         <div className="icon flex md:justify-center">
           <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 px-6 py-5 overflow-hidden scrollbar-star ">
-            <button className="brutalist-button scroll-ms-6 snap-start openai flex-shrink-0 flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("Prompt Engineering")}
+              className="brutalist-button scroll-ms-6 snap-start openai flex-shrink-0 flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="openai-logo mb-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +26,9 @@
               </div>
             </button>
 
-            <button className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start cloud flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("Cloud Computing")}
+              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start cloud flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="cloud-logo mb-2">
                 <Cloud className='text-white cloud-icon w-12 h-12' />
               </div>
@@ -33,7 +37,9 @@
               </div>
             </button>
 
-            <button className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start cpu flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("AI & ML")}
+              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start cpu flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="cpu-logo mb-2">
                 <Cpu className='text-white cpu-icon w-12 h-12' />
               </div>
@@ -42,7 +48,9 @@
               </div>
             </button>
 
-            <button className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start network flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("Networking")}
+              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start network flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="network-logo mb-2">
                 <Network className='text-white network-icon w-12 h-12' />
               </div>
@@ -51,7 +59,9 @@
               </div>
             </button>
 
-            <button className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start web flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("Web Development")}
+              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start web flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="web-logo mb-2">
                 <SquareDashedBottomCode className='text-white web-icon w-12 h-12' />
               </div>
@@ -60,7 +70,9 @@
               </div>
             </button>
 
-            <button className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start mech flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("IoT")}
+              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start mech flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="mech-logo mb-2">
                 <PencilRuler className='text-white mech-icon w-12 h-12' />
               </div>
@@ -69,7 +81,9 @@
               </div>
             </button>
 
-            <button className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start iot flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
+            <button 
+              onClick={() => setCategory("Cloud Computing")}
+              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start iot flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="iot-logo mb-2">
                 <CircuitBoard className='text-white iot-icon w-12 h-12' />
               </div>

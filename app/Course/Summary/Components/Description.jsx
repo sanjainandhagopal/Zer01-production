@@ -4,12 +4,18 @@ import { Expand, Hourglass, Star } from "lucide-react";
 import Topics from "./Topics";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Slab } from "react-loading-indicators";
 
 export default function Description({ user, course, courseId }) {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleEnroll = async () => {
     try {
+      if(!user) {
+        router.push(`/Login`);
+      }
+      setLoading(true);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/course/enroll`,
         {
@@ -18,17 +24,24 @@ export default function Description({ user, course, courseId }) {
         },
         { withCredentials: true }
       );
-
-      alert("Enrolled successfully!");
       router.push(`/Course/Viewer/PrivacyAccess/${courseId}`);
     } catch (error) {
       console.error("Enrollment error:", error);
       alert(error.response?.data?.message || "Failed to enroll.");
+      setLoading(false);
     }
   };
 
   return (
     <div className="mx-auto p-4 mt-10">
+      {/* Full-Page Loader */}
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+          <div style={{ transform: 'rotate(180deg)' }}>
+            <Slab color="#0e1c8e" size="large" text="" textColor="" />
+          </div>
+        </div>
+      )}
       {/* Description Card */}
       <div className="shadow-lg rounded-lg overflow-hidden">
         <div className="flex flex-col-reverse sm:flex-row items-start gap-4 p-4">
@@ -49,11 +62,6 @@ export default function Description({ user, course, courseId }) {
               <button className="rounded-xl flex items-center justify-center gap-1 text-sm bg-indigo-500 w-full sm:w-auto px-3 py-2 hover:scale-105 transition-all duration-300">
                 <Hourglass size={16} />
                 <p>{course.Duration}</p>
-              </button>
-              {/* Star Rating Button */}
-              <button className="rounded-xl flex items-center justify-center gap-1 text-sm border border-white text-yellow-500 w-full sm:w-auto px-3 py-2 hover:text-yellow-400 hover:scale-105 transition-all duration-300">
-                <Star size={16} />
-                <p>4.5</p>
               </button>
             </div>
             {/* Topics and Video Section */}

@@ -1,12 +1,14 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { Slab } from 'react-loading-indicators';
 
 export default function Page({ params }) {
   const resolvedParams = React.use(params); // Unwrap the `params` Promise
   const [cameraValidation, setCameraValidation] = useState(false);
   const [micValidation, setMicValidation] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleCameraValidation = async () => {
@@ -39,6 +41,7 @@ export default function Page({ params }) {
 
   const handleRouteAssessment = () => {
     if (cameraValidation && micValidation) {
+      setLoading(true);
       router.push(`/Course/FinalAssessment/${resolvedParams.courseId}`);
     } else {
       setErrorMessage("Please validate both camera and microphone access before proceeding.");
@@ -47,6 +50,13 @@ export default function Page({ params }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+          <div style={{ transform: 'rotate(180deg)' }}>
+            <Slab color="#0e1c8e" size="large" text="" textColor="" />
+          </div>
+        </div>
+      )}
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">
           Access Validator

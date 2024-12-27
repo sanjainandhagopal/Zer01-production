@@ -1,11 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import { handleGenerateOtp } from './FormHandlers';
-import { Slab } from 'react-loading-indicators';
+
+import { Puff } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { handleForgotGenerateOtp } from './ForgotPasswordHandler';
 
-export default function EmailForm({ emailDetails }) {
+export default function ForgotEmailForm({ emailDetails }) {
   const { email, setEmail, setVerify, router } = emailDetails;
   const [loading, setLoading] = useState(false); // Track loading state
 
@@ -17,7 +18,7 @@ export default function EmailForm({ emailDetails }) {
     e.preventDefault();
     setLoading(true); // Show loader
     try {
-      await handleGenerateOtp(email, setVerify); // Await OTP generation
+      await handleForgotGenerateOtp(email, setVerify); // Await OTP generation
       toast.success('This user is already exist'); // Success toast
     } catch (error) {
       console.error("Error generating OTP:", error);
@@ -29,19 +30,9 @@ export default function EmailForm({ emailDetails }) {
 
   return (
     <>
-      {/* Full-Page Loader */}
-      {loading && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
-          <div style={{ transform: 'rotate(180deg)' }}>
-            <Slab color="#0e1c8e" size="large" text="" textColor="" />
-          </div>
-        </div>
-      )}
-
-      {/* Form */}
       <form 
         onSubmit={handleSubmit} 
-        className="bg-gray-50 p-6 rounded-lg shadow-md space-y-6 w-full max-w-md mx-auto mt-10"
+        className="bg-gray-50 p-6 rounded-lg shadow-md space-y-6 w-full max-w-md"
       >
         {/* Input Field */}
         <div>
@@ -74,7 +65,18 @@ export default function EmailForm({ emailDetails }) {
             }`}
             disabled={loading} // Disable button while loading
           >
-            {loading ? "Loading..." : "Generate OTP"}
+            {loading ? (
+              <Puff 
+                visible={true}
+                height="30"
+                width="30"
+                color="#FFFFFF"
+                ariaLabel="puff-loading"
+                wrapperStyle={{ display: "inline-block" }}
+              />
+            ) : (
+              "Generate OTP"
+            )}
           </button>
         </div>
 

@@ -1,9 +1,14 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef } from 'react';
+import { Slab } from 'react-loading-indicators';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Page({ params }) {
   const resolvedParams = React.use(params); // Unwrap the `params` Promise
+  const [user, setUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [errorUser, setErrorUser] = useState(null);
   const [cameraValidation, setCameraValidation] = useState(false);
   const [micValidation, setMicValidation] = useState(false);
   const [networkValidation, setNetworkValidation] = useState(navigator.onLine);
@@ -12,6 +17,12 @@ export default function Page({ params }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [accept, setAccept] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setAccept(event.target.checked); 
+  };
 
   const handleCameraValidation = async () => {
     try {
@@ -60,20 +71,31 @@ export default function Page({ params }) {
   };
 
   const handleRouteAssessment = () => {
-    if (cameraValidation && micValidation && networkValidation) {
+    if (cameraValidation && micValidation && networkValidation && accept) {
+      setLoading(true);
       router.push(`/Course/Viewer/${resolvedParams.courseId}`);
     } else {
+      toast("Please validate everything")
       setErrorMessage("Please validate camera, microphone, and network access before proceeding.");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 w-full">
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+          <div style={{ transform: 'rotate(180deg)' }}>
+            <Slab color="#0e1c8e" size="large" text="" textColor="" />
+          </div>
+        </div>
+      )}
+      <div className="bg-white shadow-md rounded-lg p-8 w-4/5 max-w-4/5">
         <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">
           Access Validator
         </h1>
 
+        <div className='flex flex-row gap-10 w-full'>
+        <div className='w-1/3'>
         <div className="mb-6">
           <p className="text-gray-700 mb-2">Click here to validate camera access:</p>
           <button
@@ -86,12 +108,7 @@ export default function Page({ params }) {
           >
             {cameraValidation ? "Camera Access Validated ✅" : "Validate Camera"}
           </button>
-          {capturedImage && (
-            <div className="mt-4">
-              <p className="text-gray-700">Captured Image:</p>
-              <img src={capturedImage} alt="Captured" className="w-full rounded-md" />
-            </div>
-          )}
+          
           <p className="text-sm mt-2">
             Status:{" "}
             <span
@@ -156,12 +173,14 @@ export default function Page({ params }) {
           <p className="text-red-600 text-center font-medium mb-4">{errorMessage}</p>
         )}
 
+        </div>
+        <div className='flex flex-col items-center'>
         <h3 className="text-lg font-medium text-gray-800 text-center mb-4">
           If everything is fine:
         </h3>
         <button
           onClick={handleRouteAssessment}
-          className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md"
+          className="py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md"
         >
           Continue with the course
         </button>
@@ -171,11 +190,19 @@ export default function Page({ params }) {
           <p className="text-sm text-gray-600 mt-2">
             We value your privacy. Your camera and microphone access are used only for validation purposes. No data will be stored or shared.
           </p>
+          <input 
+            type="checkbox" 
+            checked={accept} 
+            onChange={handleCheckboxChange} 
+          />
+          <label htmlFor="accept">Accept Terms and Conditions</label>
         </div>
       </div>
 
       <video ref={videoRef} className="hidden" width="320" height="240" />
       <canvas ref={canvasRef} className="hidden" width="320" height="240" />
+      </div>
+      </div>
     </div>
   );
 }

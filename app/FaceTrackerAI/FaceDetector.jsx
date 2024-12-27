@@ -1,20 +1,29 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as faceapi from "face-api.js";
+import { useRouter } from "next/navigation";
 
-export const FaceDetector = ({ courseVideoRef, proctor }) => {
+export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
   const videoRef = useRef(null);
   const [isFaceDetected, setIsFaceDetected] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isChatbotVisible, setIsChatbotVisible] = useState(false);
   const [chatbotQuestion, setChatbotQuestion] = useState("");
+  const route = useRouter();
 
-  const distractionQuestions = [
+  const distractionQuestions = !coursePanel ? [
     "What are you thinking about right now?",
     "Can you describe what just distracted you?",
     "Do you feel focused enough to continue?",
     "What task or thought pulled your attention away?",
     "How can you refocus on the course content?",
-  ];
+  ] : [
+    "I think you'er not properly concentrate here. Do you want to continue with the course ?"
+  ]
+
+  const handleExit = () => {
+    stopVideo();
+    route.push("/")
+  }
 
   const generateRandomQuestion = () => {
     const randomIndex = Math.floor(Math.random() * distractionQuestions.length);
@@ -79,6 +88,14 @@ export const FaceDetector = ({ courseVideoRef, proctor }) => {
     loadModels().then(startVideo);
   }, []);
 
+  const stopVideo = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
+      videoRef.current.srcObject = null; 
+    }
+  };
+
   useEffect(() => {
     let detectionInterval = null;
 
@@ -114,7 +131,6 @@ export const FaceDetector = ({ courseVideoRef, proctor }) => {
       <p className="mt-2 text-lg font-medium">
         {isFaceDetected ? "Face Detected" : "No Face Detected"}
       </p>
-      <p className="mt-1 text-sm text-gray-500">Counter: {counter}</p>
 
       {isChatbotVisible && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-80 flex justify-center items-center z-50">
@@ -127,18 +143,33 @@ export const FaceDetector = ({ courseVideoRef, proctor }) => {
           >
             <h4 className="text-2xl font-semibold text-gray-800 mb-4">Zer01Bot</h4>
             <p className="text-lg text-center">{chatbotQuestion}</p>
+            {!coursePanel ? (
             <input
               type="text"
               placeholder="Type your response..."
               required
               className="w-3/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             />
+            ) : ""}
+            {!coursePanel ? (
             <button
               type="submit"
               className="w-1/3 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
             >
               Respond
             </button>
+            ) : (
+              <div className="w-full flex flex-row justify-around">
+              <button
+                className="w-1/3 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                onClick={handleExit}
+              >I'm tiered</button>
+              <button
+                className="w-1/3 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                type="submit"
+              >Yes continue</button>
+              </div>
+            )}
           </form>
         </div>
       )}

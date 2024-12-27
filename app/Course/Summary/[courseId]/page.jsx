@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import NavigationBar from '@/app/NavigationBar/page';
 import Description from '../Components/Description';
+import { Slab } from 'react-loading-indicators';
 
 export default function Summary({ params }) {
   const [user, setUser] = useState(null);
@@ -40,8 +41,13 @@ export default function Summary({ params }) {
     fetchCourseData(setCourseData, setLoading, setError, courseId);
   }, [courseId]);
 
-  if (!courseId || loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (!courseId || loading) 
+  return  <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <Slab color="#0e1c8e" size="large" text="" textColor="" />
+            </div>
+          </div>; 
+  if (error) return router.push(`/Login`);
 
   return (
     <div className="min-h-screen">

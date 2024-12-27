@@ -4,8 +4,11 @@ import McqPage from '../McqPage';
 import ProgrammingPage from '../ProgrammingPage';
 import { fetchUser } from '@/app/OperatorFunctions/userVerifier';
 import { FaceDetector } from '@/app/FaceTrackerAI/FaceDetector';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import { useRouter } from 'next/navigation';
 
 export default function Page({ params }) {
+  const handle = useFullScreenHandle();
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [errorUser, setErrorUser] = useState(null);
@@ -13,12 +16,22 @@ export default function Page({ params }) {
   const [courseData, setCourseData] = useState(null);
   const [selectedTab, setSelectedTab] = useState(''); // Tracks which tab is selected ('MCQ' or 'Programming')
   const [selectedProgrammingTask, setSelectedProgrammingTask] = useState(null); // Tracks the selected programming question
-  const [proctor, setProctor] = useState(true);
+  const [proctor, setProctor] = useState(false);
   const videoRef = null;
+  const route = useRouter();
+
+  const handleEndTest = () => {
+    route.push("/");
+  }
 
   useEffect(() => {
     fetchUser(setUser, setLoadingUser, setErrorUser);
   }, []);
+
+  const handleProctorToggle = () => {
+    setProctor((prev) => !prev);
+    handle.enter();
+  }
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -45,6 +58,7 @@ export default function Page({ params }) {
   const handleProgrammingTaskSelect = (task) => setSelectedProgrammingTask(task);
 
   return (
+    <FullScreen handle={handle}>
     <div className="container mx-auto p-6 text-gray-900">
       {/* Loading State */}
       {!courseData ? (
@@ -56,11 +70,13 @@ export default function Page({ params }) {
           {/* Left Panel (MCQ and Programming) */}
           <div className="col-span-3 bg-gray-100 p-6 rounded-lg shadow-md">
             {/* Header */}
-            <h1 className="text-2xl font-bold text-gray-700 mb-4">{courseData.Title}</h1>
+            
             <h2 className="text-xl font-medium text-gray-600 mb-6">Final Assessment</h2>
 
             {/* Tab Selection */}
+            {proctor? (
             <div className="space-y-4">
+              
               {/* MCQ Button */}
               <button
                 onClick={() => handleTabClick('MCQ')}
@@ -100,10 +116,27 @@ export default function Page({ params }) {
                 )}
               </div>
             </div>
+            ) : "Click on the 'Start Assessment' button"}
 
             {/* Face Detection */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-6 rounded-lg shadow-md mt-6">
               <FaceDetector courseVideoRef={videoRef} proctor={proctor} />
+            </div>
+
+            <div className="mt-10 flex justify-center">
+              {!proctor ? (
+              <button
+                className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+                onClick={handleProctorToggle}
+              >
+                {proctor ? 'Exit' : 'Start Assessment'}
+              </button>
+              ) : (
+                <button
+                  className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+                  onClick={handleEndTest}
+                >End Test</button>
+              )}
             </div>
           </div>
 
@@ -139,5 +172,6 @@ export default function Page({ params }) {
         </div>
       )}
     </div>
+    </FullScreen>
   );
 }

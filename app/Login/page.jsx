@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Slab } from 'react-loading-indicators';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -47,12 +48,23 @@ export default function Login() {
         router.push('/Signup');
     };
 
+    if (loading) {
+        return (
+            <div className="flex w-full h-screen items-center justify-center bg-gray-100">
+                <div style={{ transform: 'rotate(180deg)' }}>
+                    <Slab color="#0e1c8e" size="large" text="Logging in..." textColor="#32cd32" />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex w-full h-screen">
             {/* Left Section with an Image */}
-            <div className="hidden md:flex w-1/2 bg-cover bg-center bg-white" 
-                 style={{ backgroundImage: 'url("zer01-logo.png")' }}>
-            </div>
+            <div
+                className="hidden md:flex w-1/2 bg-cover bg-center bg-white"
+                style={{ backgroundImage: 'url("zer01-logo.png")' }}
+            ></div>
 
             {/* Right Section with Login Form */}
             <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 bg-gray-50">
@@ -94,7 +106,7 @@ export default function Login() {
                             disabled={loading}
                             className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
                         >
-                            {loading ? "Logging in..." : "Login"}
+                            Login
                         </button>
                     </form>
 

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { fetchUser } from "@/app/OperatorFunctions/userVerifier";
 
-export default function McqValidator({ assessments, userId, courseId, moduleId }) {
+export default function McqValidator({ assessments, userId, courseId, moduleId, setUser }) {
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [errorUser, setErrorUser] = useState(null);
   const [update, setUpdate] = useState({
     userId: userId || "",
     courseId: courseId || "",
@@ -63,6 +66,7 @@ export default function McqValidator({ assessments, userId, courseId, moduleId }
 
     // Update module progress in the backend
     await updateScore(calculatedScore);
+    fetchUser(setUser, setLoadingUser, setErrorUser);
   };
 
   const updateScore = async (calculatedScore) => {

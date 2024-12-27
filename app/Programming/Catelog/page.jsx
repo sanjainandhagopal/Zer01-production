@@ -2,35 +2,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { fetchProblems } from '@/app/OperatorFunctions/problemDataProvider';
 
 export default function Catelog() {
     const [problems, setProblems] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [problemLoading, setProblemLoading] = useState(true);
+    const [problemError, setProblemError] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        const fetchProblems = async () => {
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/problemSolver/list`);
-                setProblems(response.data);
-                setLoading(false);
-            } catch (err) {
-                console.error("Error fetching problems:", err);
-                setError("Failed to load problems.");
-                setLoading(false);
-            }
-        };
-
-        fetchProblems();
+        fetchProblems(setProblems, setProblemLoading, setProblemError);
     }, []);
 
-    if (loading) {
+    if (problemLoading) {
         return <div className="text-center text-lg font-semibold text-blue-600">Loading problems...</div>;
     }
 
-    if (error) {
-        return <div className="text-center text-lg font-semibold text-red-600">{error}</div>;
+    if (problemError) {
+        return <div className="text-center text-lg font-semibold text-red-600">{problemError}</div>;
     }
 
     const handleSubmit = (id) => {
