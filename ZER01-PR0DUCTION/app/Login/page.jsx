@@ -50,7 +50,7 @@ export default function Login() {
 
     if (loading) {
         return (
-            <div className="flex w-full h-screen items-center justify-center bg-gray-100">
+            <div className="flex w-full h-screen items-center justify-center ">
                 <div style={{ transform: 'rotate(180deg)' }}>
                     <Slab color="#0e1c8e" size="large" text="Logging in..." textColor="#32cd32" />
                 </div>
@@ -59,17 +59,17 @@ export default function Login() {
     }
 
     return (
-        <div className="flex w-full h-screen">
+        <div className="flex w-full h-screen bg-black">
             {/* Left Section with an Image */}
             <div
-                className="hidden md:flex w-1/2 bg-cover bg-center bg-white"
-                style={{ backgroundImage: 'url("zer01-logo.png")' }}
+                className="hidden md:flex w-1/2 bg-cover bg-center "
+                style={{ backgroundImage: 'url("zer01-logo.png")'  }}
             ></div>
 
             {/* Right Section with Login Form */}
-            <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 bg-gray-50">
+            <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 ">
                 <div className="w-full max-w-md">
-                    <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Welcome Back!</h2>
+                    <h2 className="text-3xl font-bold mb-6 text-center text-white">Welcome Back!</h2>
                     <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                         <div className="flex flex-col space-y-4">
                             <input
