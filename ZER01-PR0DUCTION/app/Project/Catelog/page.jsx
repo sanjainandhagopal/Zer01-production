@@ -2,6 +2,7 @@ import React from 'react';
 import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import NavigationBar from '@/app/NavigationBar/page';
+import Footer from '@/app/Footer/page';
 
 const projects = [
   {
@@ -35,12 +36,9 @@ const projects = [
 
 export default function Catelog() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white py-10 px-4">
+    <div className="min-h-screen bg-gray-900 text-white">
       <NavigationBar/>
-    <div className="max-w-7xl mx-auto">
-      {/* Page Title */}
-      <h1 className="text-4xl font-bold text-center mb-10">My Projects</h1>
-
+    <div className="max-w-7xl mx-auto mt-20">
       {/* Project Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
@@ -119,6 +117,8 @@ export default function Catelog() {
         ))}
       </div>
     </div>
+    <Footer/>
   </div>
+  
   )
 }

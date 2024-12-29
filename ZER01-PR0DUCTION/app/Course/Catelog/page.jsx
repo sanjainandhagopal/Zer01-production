@@ -6,6 +6,7 @@ import { fetchUser } from "@/app/OperatorFunctions/userVerifier";
 import NavigationBar from "@/app/NavigationBar/page";
 import { Slab } from "react-loading-indicators";
 import Categories from "@/app/Index/Categories/Categories";
+import Footer from "@/app/Footer/page";
 
 export default function Catelog() {
   const [user, setUser] = useState(null);
@@ -108,6 +109,7 @@ export default function Catelog() {
           <p className="text-center text-gray-600 col-span-full">No courses available.</p>
         )}
       </div>
+      <Footer/>
     </div>
   );
 }
