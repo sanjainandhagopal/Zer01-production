@@ -37,7 +37,7 @@ const NavigationBar = ({ user }) => {
           <div className="hidden md:flex space-x-8">
             <a href="/" className="hover:text-gray-300">Home</a>
             <a href="/Course/Catelog" className="hover:text-gray-300">Course</a>
-            <a href="#" className="hover:text-gray-300">Projects</a>
+            <a href="/Project/Catelog" className="hover:text-gray-300">Projects</a>
             <a href="/Programming/Catelog" className="hover:text-gray-300">Problems</a>
             <a href="/Blogs/Catelog" className="hover:text-gray-300">Blogs</a>
           </div>
