@@ -47,6 +47,9 @@ export default function Prblmcard() {
 
   return (
     <div className="mx-auto">
+      <div className="w-full text-center my-5 text-2xl">
+        <h2>Show your problem solving skill here</h2>
+      </div>
       <PrblmCat setCategory={setCategory} />
       <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 px-6 py-5 overflow-hidden scrollbar-star justify-center">
         {filteredCourses.map((card) => (

@@ -38,7 +38,7 @@ const NavigationBar = ({ user }) => {
             <a href="/Course/Catelog" className="hover:text-gray-300">Course</a>
             <a href="#" className="hover:text-gray-300">Projects</a>
             <a href="/Programming/Catelog" className="hover:text-gray-300">Problems</a>
-            <a href="#" className="hover:text-gray-300">Blogs</a>
+            <a href="/Blogs/Catelog" className="hover:text-gray-300">Blogs</a>
           </div>
 
           {/* Right: Profile or Login */}

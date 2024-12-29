@@ -15,7 +15,7 @@ export default function Index() {
   const [loadingUser, setLoadingUser] = useState(true);
   const [errorUser, setErrorUser] = useState(null);
 
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState("");
 
   const [courses, setCourses] = useState([]);
   const [loadingCourses, setLoadingCourses] = useState(true);
@@ -34,11 +34,21 @@ export default function Index() {
   return (
     <div>
       <Hero user={user}/>
+      <div>
+      <div className="w-full text-center my-5 text-2xl">
+        <h2>Explore our courses here</h2>
+      </div>
       <Categories setCategory={setCategory} />
       <Cardlist courses={courses} category={category}/>
+      </div>
       <Projectcard/>
       <Prblmcard/>
+      <div>
+      <div className="w-full text-center my-5 text-2xl">
+        <h2>Explore Daily updates here</h2>
+      </div>
       <Blogcard/>
+      </div>
       <Footer />
     </div>
   )

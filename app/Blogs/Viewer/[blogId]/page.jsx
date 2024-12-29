@@ -28,24 +28,54 @@ export default function Viewer({ params: paramsPromise }) {
   }, [blogId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p className="text-lg font-semibold text-gray-500">Loading...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p className="text-lg font-semibold text-red-500">{error}</p>
+      </div>
+    );
   }
 
   if (!blogData) {
-    return <div>No blog found.</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p className="text-lg font-semibold text-gray-500">No blog found.</p>
+      </div>
+    );
   }
 
   return (
-    <div className=" mx-auto mt-10 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">{blogData.BlogTitle}</h1>
-      <p className="text-sm text-gray-500 mb-6">
-        Published on: {new Date(blogData.CreateDate).toLocaleDateString()}
-      </p>
-      <div className=" text-gray-800" dangerouslySetInnerHTML={{ __html: blogData.Content }}>
+    <div className="min-h-screen bg-gray-950 py-10">
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Blog Header */}
+        <div className="bg-gray-900 p-10">
+          <h1 className="text-4xl font-bold mb-2">{blogData.BlogTitle}</h1>
+          <p className="text-sm font-medium">
+            Published on: {new Date(blogData.CreateDate).toLocaleDateString()}
+          </p>
+        </div>
+
+        {/* Blog Content */}
+        <div className="p-8">
+          <div
+            className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: blogData.Content }}
+          ></div>
+        </div>
+
+        {/* Footer */}
+        <div className="bg-gray-100 p-4 text-center">
+          <p className="text-sm text-gray-500">
+            Thank you for reading! Share your thoughts in the comments below.
+          </p>
+        </div>
       </div>
     </div>
   );

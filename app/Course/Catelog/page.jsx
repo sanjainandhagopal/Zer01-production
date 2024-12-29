@@ -12,6 +12,9 @@ export default function Catelog() {
   const [loadingUser, setLoadingUser] = useState(true);
   const [errorUser, setErrorUser] = useState(null);
 
+  const [category, setCategory] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
+
   const [courses, setCourses] = useState([]);
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [errorCourses, setErrorCourses] = useState(null);
@@ -20,14 +23,27 @@ export default function Catelog() {
   const [loading, setLoading] = useState(false);
 
   // Fetch user details on mount
-  useEffect( () => {
+  useEffect(() => {
     fetchUser(setUser, setLoadingUser, setErrorUser);
   }, []);
 
   // Fetch all courses on mount
   useEffect(() => {
-    fetchCourses(setCourses, setLoadingCourses, setErrorCourses);
+    fetchCourses((fetchedCourses) => {
+      setCourses(fetchedCourses);
+      setFilteredCourses(fetchedCourses); // Initially show all courses
+      setLoadingCourses(false);
+    }, setLoadingCourses, setErrorCourses);
   }, []);
+
+  // Update filtered courses when category changes
+  useEffect(() => {
+    if (category === "") {
+      setFilteredCourses(courses); // Show all courses if no category selected
+    } else {
+      setFilteredCourses(courses.filter((course) => course.Category === category));
+    }
+  }, [category, courses]);
 
   // Navigate to the course details page
   const handleViewCourse = (id) => {
@@ -35,12 +51,14 @@ export default function Catelog() {
     router.push(`/Course/Summary/${id}`); // Navigate to dynamic route `/course/[id]`
   };
 
-  if (loadingUser || loadingCourses) 
-  return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
-            <div style={{ transform: 'rotate(180deg)' }}>
-              <Slab color="#0e1c8e" size="large" text="" textColor="" />
-            </div>
-          </div>;
+  if (loadingUser || loadingCourses)
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+        <div style={{ transform: 'rotate(180deg)' }}>
+          <Slab color="#0e1c8e" size="large" text="" textColor="" />
+        </div>
+      </div>
+    );
   if (errorUser) return router.push(`/Login`);
   if (errorCourses) return <div>{errorCourses}</div>;
 
@@ -57,19 +75,17 @@ export default function Catelog() {
       {/* Navigation Bar */}
       <NavigationBar user={user} />
 
-
-
       {/* Page Header */}
       <div className="bg-black text-white py-10 mt-10">
         <h2 className="text-center text-3xl font-bold">Course Catalog</h2>
         <p className="text-center mt-2 text-lg">Explore our wide range of courses designed just for you!</p>
-        <Categories/>
+        <Categories setCategory={setCategory} />
       </div>
 
       {/* Course List */}
       <div className="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.length > 0 ? (
-          courses.map((course) => (
+        {filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
             <div
               key={course._id}
               className="shadow-lg hover:shadow-xl transition-shadow duration-300 snap-start border-y-2 rounded-2xl border-gray-100 backdrop-blur-xl text-gray-100">

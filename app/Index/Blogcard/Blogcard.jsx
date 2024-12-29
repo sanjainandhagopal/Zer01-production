@@ -46,7 +46,7 @@ export default function BlogCard() {
         >
           {/* Left Section - Image */}
           <div className="w-full h-40 sm:h-48 md:h-52">
-            <img src="https://via.placeholder.com/150" // Placeholder image
+            <img src="ccourse.png" // Placeholder image
               alt="Blog"
               className="w-full h-full object-cover p-2"
             />
