@@ -52,7 +52,7 @@ export default function Login() {
         return (
             <div className="flex w-full h-screen items-center justify-center bg-gray-100">
                 <div style={{ transform: 'rotate(180deg)' }}>
-                    <Slab color="#0e1c8e" size="large" text="Logging in..." textColor="#32cd32" />
+                    <Slab color="#0e1c8e" size="large" text="" textColor="" />
                 </div>
             </div>
         );

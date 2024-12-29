@@ -4,12 +4,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import NavigationBar from "@/app/NavigationBar/page";
+import { fetchUser } from "@/app/OperatorFunctions/userVerifier";
 
 export default function Catelog() {
+  const [user, setUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [errorUser, setErrorUser] = useState(null);
+
   const [blogs, setBlogs] = useState([]); // State to store blogs
   const [loadingBlogs, setLoadingBlogs] = useState(true); // State to track loading
   const [errorBlogs, setErrorBlogs] = useState(null); // State to track errors
   const router = useRouter();
+
+  // Fetch user details on mount
+  useEffect(() => {
+    fetchUser(setUser, setLoadingUser, setErrorUser);
+  }, []);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -42,7 +52,7 @@ export default function Catelog() {
 
   return (
     <div className="">
-      <NavigationBar />
+      <NavigationBar user={user} />
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6 mt-20">
       {blogs.map((blog) => (
         <div
