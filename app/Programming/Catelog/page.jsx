@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import NavigationBar from "@/app/NavigationBar/page";
 import { useRouter } from 'next/navigation';
 import { fetchProblems } from '@/app/OperatorFunctions/problemDataProvider';
 
@@ -27,19 +28,22 @@ export default function Catelog() {
     };
 
     return (
-        <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+        <div className="container mx-auto p-6 bg-black rounded-lg shadow-lg">
+            <div className=' mb-10 ' >
+            <NavigationBar/>
+            </div>
             <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Problem-Solving Catalog</h1>
             {problems.length === 0 ? (
-                <div className="text-center text-lg text-gray-500">No problems found.</div>
+                <div className="text-center text-lg text-white">No problems found.</div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {problems.map((problem) => (
-                        <div key={problem._id} className="flex flex-col bg-white p-6 border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{problem.Title}</h2>
-                            <p className="text-gray-600 mb-3">
+                        <div key={problem._id} className="flex flex-col  p-6  rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300  border-y-2 border-gray-100 backdrop-blur-xl hero-card">
+                            <h2 className="text-xl font-semibold text-white mb-4">{problem.Title}</h2>
+                            <p className="text-white mb-3">
                                 <strong>Category:</strong> {problem.Category}
                             </p>
-                            <p className="text-gray-600 mb-3">
+                            <p className="text-white mb-3">
                                 <strong>Description:</strong> {problem.Description}
                             </p>
                             <div className="flex-grow"></div> {/* This ensures the button is at the bottom */}

@@ -38,32 +38,31 @@ export default function BlogCard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-4 px-5">
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6">
       {blogs.map((blog) => (
         <div
-          key={blog._id} // Unique key for each blog
-          className="hero-card border-y-2 border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row"
+          key={blog._id}
+          className="hero-card border border-white rounded-lg shadow-md overflow-hidden flex flex-col"
         >
           {/* Left Section - Image */}
-          <div className="md:w-1/3 h-52 p-2 md:p-0">
-            <img
-              src="https://via.placeholder.com/150" // Placeholder image
+          <div className="w-full h-40 sm:h-48 md:h-52">
+            <img src="https://via.placeholder.com/150" // Placeholder image
               alt="Blog"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover p-2"
             />
           </div>
-
+  
           {/* Right Section */}
-          <div className="w-2/3 md:p-4 py-2 flex flex-col md:justify-between justify-center mx-auto">
+          <div className="p-4 flex flex-col justify-between">
             {/* Title */}
-            <h2 className="text-lg font-bold text-gray-800 leading-tight mb-2 line-clamp-2">
-              {blog.BlogTitle} {/* Dynamic title */}
+            <h2 className="text-base sm:text-lg font-bold text-white leading-snug mb-4 line-clamp-2">
+              {blog.BlogTitle}
             </h2>
-
+  
             {/* Button */}
             <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
-              onClick={() => handleViewBlog(blog._id)} // Handle navigation
+              className="bg-blue-500 text-white py-2 px-4 text-sm rounded-md hover:bg-blue-600 transition duration-200"
+              onClick={() => handleViewBlog(blog._id)}
             >
               View Blog
             </button>
@@ -72,4 +71,6 @@ export default function BlogCard() {
       ))}
     </div>
   );
+  
+    
 }

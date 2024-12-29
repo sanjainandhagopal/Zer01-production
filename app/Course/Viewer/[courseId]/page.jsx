@@ -27,13 +27,12 @@ export default function CourseDetails({ params: paramsPromise }) {
 
   const handleProctorToggle = () => {
     setProctor((prev) => !prev);
-    if(proctor){
+    if (proctor) {
       handle.exit();
     } else {
       handle.enter();
     }
-    
-  }
+  };
 
   useEffect(() => {
     if (videoRef.current) {
@@ -44,7 +43,6 @@ export default function CourseDetails({ params: paramsPromise }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch params and user in parallel
         const [resolvedParams, fetchedUser] = await Promise.all([
           paramsPromise,
           new Promise((resolve) => fetchUser(resolve, () => resolve(null))),
@@ -87,31 +85,20 @@ export default function CourseDetails({ params: paramsPromise }) {
   };
 
   const handleVideoSelect = (videoUrl, videoId, moduleId) => {
-    // Find the course enrollment based on the course ID
     const enrollmentData = user?.courseEnrollments?.find(
-        (enrollment) => {
-            return enrollment.CourseId._id.toString() === courseData._id.toString();
-        }
+      (enrollment) => enrollment.CourseId._id.toString() === courseData._id.toString()
     );
 
-    // Find the module data within the course enrollment
     const moduleData = enrollmentData?.Modules.find(
-        (module) => {
-            return module.ModuleId.toString() === moduleId.toString();
-        }
+      (module) => module.ModuleId.toString() === moduleId.toString()
     );
 
-    // Find the video progress data within the module
     const videoProgressData = moduleData?.VideosProgress.find(
-        (video) => {
-            return video.VideoId.toString() === videoId.toString();
-        }
+      (video) => video.VideoId.toString() === videoId.toString()
     );
 
-    // Extract the timestamp from the video progress data
     const VideoTimeStamp = videoProgressData?.Timestamp || 0;
 
-    // Update state with the timestamp and video details
     setTimeStamp(VideoTimeStamp);
     setSelectedVideo(videoUrl);
     setSelectedVideoId(videoId);
@@ -128,84 +115,76 @@ export default function CourseDetails({ params: paramsPromise }) {
     router.push(`/Course/FinalAssessment/AccessValidator/${params.courseId}`);
   };
 
-  // Locking logic for modules based on the user's progress
   const isModuleLocked = (index) => {
-    if (index === 0) return false; // First module is always unlocked
-
-    const enrollmentData = user?.courseEnrollments?.find(
-      (enrollment) => {
-        return enrollment.CourseId._id.toString() == courseData._id.toString();
-      }
-    );
-
-    if (!enrollmentData) return true; // If the user is not enrolled, lock all modules
-
-    const previousModule = enrollmentData.Modules[index - 1];
-    return !(previousModule && previousModule.Status === 'completed');
-  };
-
-  const isModuleAssessmentLoked = (index) => {
-    const enrollmentData = user?.courseEnrollments?.find(
-      (enrollment) => {
-        return enrollment.CourseId._id.toString() == courseData._id.toString();
-      }
-    );
-  
-    if (!enrollmentData) return true; // If the user is not enrolled, lock the assessment
-  
-    const currentModule = enrollmentData.Modules[index];
-    
-    // Check the last video in the module for IsWatched status
-    const lastVideoProgress = currentModule?.VideosProgress?.[currentModule?.VideosProgress.length - 1];
-  
-    if (lastVideoProgress?.IsWatched === false) {
-      return true; // Lock the module assessment if the last video is not watched
-    }
-  
-    return false; // Unlock the module assessment if the last video is watched
-  };
-  
-
-  const isAssessmentLoked = () => {
-    const enrollmentData = user?.courseEnrollments?.find(
-      (enrollment) => {
-        return enrollment.CourseId._id.toString() == courseData._id.toString();
-      }
-    );
-
-    if (!enrollmentData) return true; // If the user is not enrolled, Final assessment is locked
-
-    const lastModule = enrollmentData.Modules[enrollmentData.Modules.length - 1];
-    return !(lastModule && lastModule.Status === 'completed');
-  }
-
-  // Check if the video content is unlocked (previous videos must be watched)
-  const isVideoLocked = (moduleIndex, videoIndex) => {
-    if (moduleIndex === 0 && videoIndex === 0) return false; // First video of the first module is unlocked
+    if (index === 0) return false;
 
     const enrollmentData = user?.courseEnrollments?.find(
       (enrollment) => enrollment.CourseId._id.toString() === courseData._id.toString()
     );
 
-    if (!enrollmentData) return true; // If the user is not enrolled, lock all videos
+    if (!enrollmentData) return true;
+
+    const previousModule = enrollmentData.Modules[index - 1];
+    return !(previousModule && previousModule.Status === 'completed');
+  };
+
+  const isModuleAssessmentLocked = (index) => {
+    const enrollmentData = user?.courseEnrollments?.find(
+      (enrollment) => enrollment.CourseId._id.toString() === courseData._id.toString()
+    );
+
+    if (!enrollmentData) return true;
+
+    const currentModule = enrollmentData.Modules[index];
+
+    const lastVideoProgress =
+      currentModule?.VideosProgress?.[currentModule?.VideosProgress.length - 1];
+
+    if (lastVideoProgress?.IsWatched === false) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const isAssessmentLocked = () => {
+    const enrollmentData = user?.courseEnrollments?.find(
+      (enrollment) => enrollment.CourseId._id.toString() === courseData._id.toString()
+    );
+
+    if (!enrollmentData) return true;
+
+    const lastModule = enrollmentData.Modules[enrollmentData.Modules.length - 1];
+    return !(lastModule && lastModule.Status === 'completed');
+  };
+
+  const isVideoLocked = (moduleIndex, videoIndex) => {
+    if (moduleIndex === 0 && videoIndex === 0) return false;
+
+    const enrollmentData = user?.courseEnrollments?.find(
+      (enrollment) => enrollment.CourseId._id.toString() === courseData._id.toString()
+    );
+
+    if (!enrollmentData) return true;
 
     const moduleProgress = enrollmentData.Modules[moduleIndex];
     const previousVideoProgress = moduleProgress.VideosProgress[videoIndex - 1];
-    
-    // Check if the previous video is watched
+
     return previousVideoProgress?.IsWatched === false;
   };
 
   const handleExitCourse = () => {
     router.push(`/Course/Summary/${params.courseId}`);
-  }
+  };
 
   if (loading) {
-    return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
-            <div style={{ transform: 'rotate(180deg)' }}>
-              <Slab color="#0e1c8e" size="large" text="" textColor="" />
-            </div>
-          </div>;
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+        <div style={{ transform: 'rotate(180deg)' }}>
+          <Slab color="#0e1c8e" size="large" text="" textColor="" />
+        </div>
+      </div>
+    );
   }
 
   if (!courseData) {
@@ -218,113 +197,130 @@ export default function CourseDetails({ params: paramsPromise }) {
     <FullScreen handle={handle}>
       <div className="flex flex-col lg:flex-row">
         {/* Left Panel */}
-        <div className="lg:w-1/4 bg-gray-900 p-5 min-h-screen border-r shadow-sm">
-          <button 
-            className="px-3 py-2 mb-2 flex bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+        <div className="lg:w-1/4 bg-gray-900 p-5 min-h-screen border-r shadow-sm space-y-4">
+          <button
+            className="px-3 py-2 flex items-center justify-start bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
             onClick={handleExitCourse}
-          ><ArrowBigLeft /> Exit Course</button>
-          <h2 className="text-2xl font-bold text-blue-600 mb-6">Course Modules</h2>
-          {proctor? (
-          <ul className="space-y-4">
-            {Modules.map((module, index) => {
-              const locked = isModuleLocked(index);
+          >
+            <ArrowBigLeft className="mr-2" /> Exit Course
+          </button>
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">Course Modules</h2>
+          {proctor ? (
+            <ul className="space-y-4">
+              {Modules.map((module, index) => {
+                const locked = isModuleLocked(index);
 
-              return (
-                <li
-                  key={index}
-                  className={`p-4 rounded-lg shadow-md transition-all ${
-                    locked ? 'bg-gray-950 cursor-not-allowed' : 'bg-white hover:shadow-lg'
-                  }`}
-                >
-                  <div
-                    className={`flex justify-between items-center ${
-                      locked ? 'cursor-not-allowed' : 'cursor-pointer'
+                return (
+                  <li
+                    key={index}
+                    className={`p-4 rounded-lg shadow-md transition-all ${
+                      locked ? 'bg-gray-950 cursor-not-allowed' : 'bg-white hover:shadow-lg'
                     }`}
-                    onClick={() => !locked && toggleModule(index)}
                   >
-                    <h3
-                      className={`text-lg font-medium ${
-                        locked ? 'text-gray-500' : 'text-blue-600'
+                    <div
+                      className={`flex justify-between items-center ${
+                        locked ? 'cursor-not-allowed' : 'cursor-pointer'
                       }`}
+                      onClick={() => !locked && toggleModule(index)}
                     >
-                      Module {index + 1}: {module.Title}
-                    </h3>
-                    <span className="text-lg font-bold">
-                      {expandedModule === index ? '-' : '+'}
-                    </span>
-                  </div>
-                  {expandedModule === index && !locked && (
-                    <div className="mt-4">
-                      {module.Content?.length > 0 && (
-                        <div>
-                          <h4 className="font-medium text-gray-700 mb-2">Content:</h4>
-                          <ul className="list-disc list-inside text-sm text-gray-600">
-                            {module.Content.map((content, idx) => {
-                              const locked = isVideoLocked(index, idx);
-
-                              return (
-                                <li
-                                  key={idx}
-                                  className={`ml-3 cursor-pointer ${
-                                    locked ? 'text-gray-500' : 'text-blue-600 hover:text-blue-800'
-                                  }`}
-                                  onClick={() => !locked && handleVideoSelect(content.Video, content._id, module._id)}
-                                >
-                                  {content.Title} - {content.Duration} seconds
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      )}
-                      {module.ModuleAssessment?.length > 0 && (
+                      <h3
+                        className={`text-lg font-medium ${
+                          locked ? 'text-gray-500' : 'text-blue-600'
+                        }`}
+                      >
+                        Module {index + 1}: {module.Title}
+                      </h3>
+                      <span className="text-lg font-bold">
+                        {expandedModule === index ? '-' : '+'}
+                      </span>
+                    </div>
+                    {expandedModule === index && !locked && (
                       <div className="mt-4">
-                        <h4 className="font-medium text-gray-700 mb-2">Module Assessment:</h4>
-                        <ul className="list-disc list-inside text-sm text-blue-500 cursor-pointer">
-                          <li
-                            onClick={() => {
-                              // Check if the module is locked based on the video's progress
-                              if (!isModuleAssessmentLoked(index)) {
-                                handleAssessmentSelect(module.ModuleAssessment, module._id);
-                              }
-                            }}
-                            className={`cursor-pointer ${isModuleAssessmentLoked(index) ? 'text-gray-500 cursor-not-allowed' : 'text-blue-500 hover:text-blue-800'}`}
-                          >
-                            <span className="hover:underline">
-                              {isModuleAssessmentLoked(index) ? 'Assessment Locked' : 'View Module Assessment'}
-                            </span>
-                          </li>
-                        </ul>
+                        {module.Content?.length > 0 && (
+                          <div>
+                            <h4 className="font-medium text-gray-700 mb-2">Content:</h4>
+                            <ul className="list-disc list-inside text-sm text-gray-600">
+                              {module.Content.map((content, idx) => {
+                                const locked = isVideoLocked(index, idx);
+
+                                return (
+                                  <li
+                                    key={idx}
+                                    className={`ml-3 cursor-pointer ${
+                                      locked ? 'text-gray-500' : 'text-blue-600 hover:text-blue-800'
+                                    }`}
+                                    onClick={() =>
+                                      !locked &&
+                                      handleVideoSelect(content.Video, content._id, module._id)
+                                    }
+                                  >
+                                    {content.Title} - {content.Duration} seconds
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
+                        {module.ModuleAssessment?.length > 0 && (
+                          <div className="mt-4">
+                            <h4 className="font-medium text-gray-700 mb-2">Module Assessment:</h4>
+                            <ul className="list-disc list-inside text-sm text-blue-500 cursor-pointer">
+                              <li
+                                onClick={() => {
+                                  if (!isModuleAssessmentLocked(index)) {
+                                    handleAssessmentSelect(module.ModuleAssessment, module._id);
+                                  }
+                                }}
+                                className={`cursor-pointer ${
+                                  isModuleAssessmentLocked(index)
+                                    ? 'text-gray-500 cursor-not-allowed'
+                                    : 'text-blue-500 hover:text-blue-800'
+                                }`}
+                              >
+                                <span className="hover:underline">
+                                  {isModuleAssessmentLocked(index)
+                                    ? 'Assessment Locked'
+                                    : 'View Module Assessment'}
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     )}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          ) : "Please enable proctoring"}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            'Please enable proctoring'
+          )}
           <div className="mt-8">
             <button
               className={`py-3 px-4 rounded-lg w-full transition-all ${
-                isAssessmentLoked()
+                isAssessmentLocked()
                   ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
                   : 'bg-blue-500 text-white hover:bg-blue-600'
               }`}
               onClick={() => {
-                if (!isAssessmentLoked()) {
+                if (!isAssessmentLocked()) {
                   handleAssessmentRoute();
                 } else {
                   alert('You need to complete all modules to take the final assessment.');
                 }
               }}
-              disabled={isAssessmentLoked()}
+              disabled={isAssessmentLocked()}
             >
               Take Final Assessment
             </button>
           </div>
 
-          <FaceDetector courseVideoRef={videoRef} proctor={proctor} FaceData={user.FaceData} coursePanel={true} />
+          <FaceDetector
+            courseVideoRef={videoRef}
+            proctor={proctor}
+            FaceData={user.FaceData}
+            coursePanel={true}
+          />
           <div className="mt-10 flex justify-center">
             <button
               className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
@@ -344,7 +340,7 @@ export default function CourseDetails({ params: paramsPromise }) {
               userId={user?.id}
               courseId={params?.courseId}
               moduleId={expandedModule !== null ? Modules[expandedModule]._id : null}
-              videoId={selectedVideoId} // Assuming `selectedVideo` has an `id` field for the video
+              videoId={selectedVideoId}
               setUser={setUser}
               TimeStamp={timeStamp}
             />

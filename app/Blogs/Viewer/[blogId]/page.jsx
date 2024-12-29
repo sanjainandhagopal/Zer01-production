@@ -40,15 +40,13 @@ export default function Viewer({ params: paramsPromise }) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div className=" mx-auto mt-10 bg-white rounded-lg shadow-md">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">{blogData.BlogTitle}</h1>
       <p className="text-sm text-gray-500 mb-6">
         Published on: {new Date(blogData.CreateDate).toLocaleDateString()}
       </p>
-      <div
-        className="prose max-w-none text-gray-800"
-        dangerouslySetInnerHTML={{ __html: blogData.Content }}
-      ></div>
+      <div className=" text-gray-800" dangerouslySetInnerHTML={{ __html: blogData.Content }}>
+      </div>
     </div>
   );
 }

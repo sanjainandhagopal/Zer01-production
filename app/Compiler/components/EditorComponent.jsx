@@ -119,124 +119,144 @@ export default function EditorComponent({ TestCases }) {
   }
 
   return (
-    <div className="min-h-screen dark:bg-slate-900 rounded-2xl shadow-2xl py-6 px-8">
-      <div className="flex items-center justify-between pb-3">
-        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0">Zer01</h2>
-        <div className="flex items-center space-x-2">
-          <ModeToggleBtn />
-          <div className="w-[230px]">
-            <SelectLanguages onSelect={onSelect} selectedLanguageOption={languageOption} />
-          </div>
-        </div>
-      </div>
-      <div className="bg-slate-400 dark:bg-slate-950 p-3 rounded-2xl">
-        <ResizablePanelGroup direction="horizontal" className="max-w-full rounded-lg border md:min-w-[450px] dark:bg-slate-900">
-          <ResizablePanel defaultSize={50} minSize={35} maxSize={75}>
-            <Editor
-              theme={theme === "dark" ? "vs-dark" : "vs-light"}
-              height="100vh"
-              defaultLanguage={languageOption.language}
-              defaultValue={sourceCode}
-              onMount={handleEditorDidMount}
-              value={sourceCode}
-              onChange={handleOnChange}
-              language={languageOption.language}
-            />
-          </ResizablePanel>
-          
-          <ResizableHandle withHandle />
-          
-          <ResizablePanel defaultSize={50} minSize={35} maxSize={75}>
-            <div className="text-white space-y-3 bg-slate-300 dark:bg-slate-900 min-h-screen">
-              <div className="flex items-center justify-between bg-slate-400 dark:bg-slate-950 px-6 py-2">
-                <h2>Input</h2>
-                <div className="space-x-2">
-                  {loading ? (
-                    <Button disabled size={"sm"} className="dark:bg-purple-600 text-slate-100">
-                      <Loader className="w-4 h-4 mr-1 animate-spin" />
-                      <span>Submitting...</span>
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={submitCode}
-                      size={"sm"}
-                      className="dark:bg-purple-600 text-slate-100"
-                    >
-                      <CircleCheck className="w-4 h-4 mr-1" />
-                      <span>Submit Code</span>
-                    </Button>
-                  )}
-                  {loading ? (
-                    <Button disabled size={"sm"} className="dark:bg-purple-600 text-slate-100">
-                      <Loader className="w-4 h-4 mr-2 animate-spin" />
-                      <span>Please wait...</span>
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={executeCode}
-                      size={"sm"}
-                      className="dark:bg-purple-600 text-slate-100"
-                    >
-                      <Play className="w-4 h-4 mr-2" />
-                      <span>Run</span>
-                    </Button>
-                  )}
-                </div>
-              </div>
-              <ResizablePanelGroup direction="vertical" className="h-full rounded-lg md:min-h-[450px]">
-                <ResizablePanel defaultSize={50} minSize={35}>
-                  <textarea
-                    id="userInput"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    className="h-full w-full bg-white dark:bg-slate-950 px-6 border border-slate-600 rounded-b-xl"
-                  />
-                </ResizablePanel>
-                <ResizableHandle withHandle />
-                {showTestCaseResults ? (
-                  <ResizablePanel defaultSize={25}>
-                    <div className="px-6 py-2 space-y-2">
-                      {testCases.length ? (
-                        testCases.map((testCase, index) => (
-                          <div key={index}>
-                            <p>
-                              <strong>TestCase {index + 1}: </strong>
-                              <span
-                                className={`${
-                                  testCase.result === "Passed" ? "text-green-500" : "text-red-500"
-                                }`}
-                              >
-                                {testCase.result}
-                                {testCase.result === "Passed" ? (
-                                  <CircleCheck/>
-                                ) : (
-                                  <CircleX/>
-                                )}
-                              </span>
-                            </p>
-                          </div>
-                        ))
-                      ) : (
-                        <p>No test cases available.</p>
-                      )}
-                    </div>
-                  </ResizablePanel>
-                ) : (
-                  <ResizablePanel defaultSize={25}>
-                    <div className="px-6 py-2 space-y-2">
-                      {err ? (
-                        <p className="text-red-500">An error occurred while executing the code.</p>
-                      ) : (
-                        output.map((item, index) => <p key={index}>{item}</p>)
-                      )}
-                    </div>
-                  </ResizablePanel>
-                )}
-              </ResizablePanelGroup>
-            </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl py-6 px-8">
+  {/* Header */}
+  <div className="flex items-center justify-between pb-4 border-b border-gray-300 dark:border-slate-700">
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-slate-100">Zer01</h2>
+    <div className="flex items-center space-x-4">
+      <ModeToggleBtn />
+      <div className="w-[230px]">
+        <SelectLanguages onSelect={onSelect} selectedLanguageOption={languageOption} />
       </div>
     </div>
+  </div>
+
+  {/* Editor and Output Sections */}
+  <div className="bg-gray-50 dark:bg-slate-800 p-4 mt-4 rounded-2xl shadow-inner">
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="rounded-lg border border-gray-300 dark:border-slate-700"
+    >
+      {/* Editor Panel */}
+      <ResizablePanel defaultSize={50} minSize={35} maxSize={75}>
+        <Editor
+          theme={theme === "dark" ? "vs-dark" : "vs-light"}
+          height="100vh"
+          defaultLanguage={languageOption.language}
+          defaultValue={sourceCode}
+          onMount={handleEditorDidMount}
+          value={sourceCode}
+          onChange={handleOnChange}
+          language={languageOption.language}
+        />
+      </ResizablePanel>
+
+      <ResizableHandle withHandle />
+
+      {/* Input and Output Panel */}
+      <ResizablePanel defaultSize={50} minSize={35} maxSize={75}>
+        <div className="flex flex-col h-full bg-white dark:bg-slate-900 rounded-lg shadow-lg">
+          {/* Input Header */}
+          <div className="flex items-center justify-between bg-gray-200 dark:bg-slate-800 px-6 py-3 rounded-t-lg">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-slate-100">Input</h2>
+            <div className="space-x-2">
+              {loading ? (
+                <Button disabled size={"sm"} className="bg-purple-600 text-white">
+                  <Loader className="w-4 h-4 mr-1 animate-spin" />
+                  <span>Submitting...</span>
+                </Button>
+              ) : (
+                <Button
+                  onClick={submitCode}
+                  size={"sm"}
+                  className="bg-purple-600 text-white hover:bg-purple-700"
+                >
+                  <CircleCheck className="w-4 h-4 mr-1" />
+                  <span>Submit Code</span>
+                </Button>
+              )}
+              {loading ? (
+                <Button disabled size={"sm"} className="bg-purple-600 text-white">
+                  <Loader className="w-4 h-4 mr-2 animate-spin" />
+                  <span>Please wait...</span>
+                </Button>
+              ) : (
+                <Button
+                  onClick={executeCode}
+                  size={"sm"}
+                  className="bg-purple-600 text-white hover:bg-purple-700"
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  <span>Run</span>
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Resizable Input and Output Sections */}
+          <ResizablePanelGroup direction="vertical" className="h-full">
+            {/* Input Section */}
+            <ResizablePanel defaultSize={50} minSize={35}>
+              <textarea
+                id="userInput"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className="h-full w-full p-4 text-sm bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-white border border-gray-300 dark:border-slate-700 rounded-b-lg"
+                placeholder="Enter your input here..."
+              />
+            </ResizablePanel>
+
+            <ResizableHandle withHandle />
+
+            {/* Output Section */}
+            {showTestCaseResults ? (
+              <ResizablePanel defaultSize={25}>
+                <div className="p-4 space-y-3">
+                  {testCases.length ? (
+                    testCases.map((testCase, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between bg-gray-100 dark:bg-slate-800 p-3 rounded-lg shadow-md"
+                      >
+                        <p className="font-medium">
+                          <strong>TestCase {index + 1}:</strong>
+                        </p>
+                        <span
+                          className={`flex items-center space-x-1 ${
+                            testCase.result === "Passed" ? "text-green-500" : "text-red-500"
+                          }`}
+                        >
+                          {testCase.result}
+                          {testCase.result === "Passed" ? <CircleCheck /> : <CircleX />}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">No test cases available.</p>
+                  )}
+                </div>
+              </ResizablePanel>
+            ) : (
+              <ResizablePanel defaultSize={25}>
+                <div className="p-4 space-y-3 bg-gray-100 dark:bg-slate-800 rounded-lg">
+                  {err ? (
+                    <p className="text-red-500">An error occurred while executing the code.</p>
+                  ) : (
+                    output.map((item, index) => (
+                      <p key={index} className="text-gray-800 dark:text-white">
+                        {item}
+                      </p>
+                    ))
+                  )}
+                </div>
+              </ResizablePanel>
+            )}
+          </ResizablePanelGroup>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  </div>
+</div>
+
   );
 }

@@ -5,6 +5,7 @@ import { fetchCourses } from "@/app/OperatorFunctions/courseProvider";
 import { fetchUser } from "@/app/OperatorFunctions/userVerifier";
 import NavigationBar from "@/app/NavigationBar/page";
 import { Slab } from "react-loading-indicators";
+import Categories from "@/app/Index/Categories/Categories";
 
 export default function Catelog() {
   const [user, setUser] = useState(null);
@@ -56,10 +57,13 @@ export default function Catelog() {
       {/* Navigation Bar */}
       <NavigationBar user={user} />
 
+
+
       {/* Page Header */}
       <div className="bg-black text-white py-10 mt-10">
         <h2 className="text-center text-3xl font-bold">Course Catalog</h2>
         <p className="text-center mt-2 text-lg">Explore our wide range of courses designed just for you!</p>
+        <Categories/>
       </div>
 
       {/* Course List */}
@@ -68,8 +72,7 @@ export default function Catelog() {
           courses.map((course) => (
             <div
               key={course._id}
-              className="shadow-lg hover:shadow-xl transition-shadow duration-300 snap-start border-y-2 rounded-2xl border-gray-100 backdrop-blur-xl text-gray-100"
-            >
+              className="shadow-lg hover:shadow-xl transition-shadow duration-300 snap-start border-y-2 rounded-2xl border-gray-100 backdrop-blur-xl text-gray-100">
               {/* Course Header with Background Image */}
               <div
                 className="h-40 bg-cover bg-center bg-no-repeat rounded-t-2xl flex flex-col justify-center p-4"
