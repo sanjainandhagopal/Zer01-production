@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import NavigationBar from "@/app/NavigationBar/page";
 
 export default function Catelog() {
   const [blogs, setBlogs] = useState([]); // State to store blogs
@@ -41,7 +42,8 @@ export default function Catelog() {
 
   return (
     <div className="">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6">
+      <NavigationBar />
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6 mt-20">
       {blogs.map((blog) => (
         <div
           key={blog._id}
@@ -49,7 +51,7 @@ export default function Catelog() {
         >
           {/* Left Section - Image */}
           <div className="w-full h-40 sm:h-48 md:h-52">
-            <img src="ccourse.png" // Placeholder image
+            <img src="../../ccourse.png" // Placeholder image
               alt="Blog"
               className="w-full h-full object-cover p-2"
             />
