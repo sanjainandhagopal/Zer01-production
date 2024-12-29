@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import NavigationBar from '@/app/NavigationBar/page';
 
 const projects = [
   {
@@ -35,6 +36,7 @@ const projects = [
 export default function Catelog() {
   return (
     <div className="min-h-screen bg-gray-900 text-white py-10 px-4">
+      <NavigationBar/>
     <div className="max-w-7xl mx-auto">
       {/* Page Title */}
       <h1 className="text-4xl font-bold text-center mb-10">My Projects</h1>
@@ -47,15 +49,28 @@ export default function Catelog() {
             className="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300"
           >
             {/* Project Image */}
-            <div className="relative w-full h-48">
-              <Image
-                src={project.image}
-                alt={project.title}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-t-lg"
-              />
-            </div>
+            
+              <div className="relative w-full">
+                            {/* First image */}
+                            <Image
+                              src="/ccourse.png"
+                              width={180}
+                              height={180}
+                              alt="Course Background"
+                              className='mx-auto w-full h-50'
+                            />
+              
+                            {/* Second image */}
+                            <div className="absolute top-10 md:top-16 left-0 z-10 p-5">
+                              <Image
+                                src="/next.svg"
+                                width={180}
+                                height={180}
+                                alt="Overlay Image"
+                              />
+                            </div>
+                          </div>
+      
 
             {/* Project Details */}
             <div className="p-6">
