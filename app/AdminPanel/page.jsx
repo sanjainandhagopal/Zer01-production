@@ -1,10 +1,15 @@
-import React from 'react'
-import CreateBlog from './BlogPanel/CreateBlog'
+'use client'; // Ensure this component is client-side only
 
-export default function page() {
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+// Dynamically import CreateBlog to avoid SSR issues
+const CreateBlog = dynamic(() => import('./BlogPanel/CreateBlog'), { ssr: false });
+
+export default function Page() {
   return (
     <div>
-        <CreateBlog />
+      <CreateBlog />
     </div>
-  )
+  );
 }

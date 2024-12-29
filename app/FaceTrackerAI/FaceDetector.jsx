@@ -1,4 +1,7 @@
+'use client'; // Ensures this component runs only on the client side
+
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import dynamic from "next/dynamic";
 import * as faceapi from "face-api.js";
 import { useRouter } from "next/navigation";
 
@@ -10,20 +13,20 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
   const [chatbotQuestion, setChatbotQuestion] = useState("");
   const route = useRouter();
 
-  const distractionQuestions = !coursePanel ? [
-    "What are you thinking about right now?",
-    "Can you describe what just distracted you?",
-    "Do you feel focused enough to continue?",
-    "What task or thought pulled your attention away?",
-    "How can you refocus on the course content?",
-  ] : [
-    "I think you'er not properly concentrate here. Do you want to continue with the course ?"
-  ]
+  const distractionQuestions = !coursePanel
+    ? [
+        "What are you thinking about right now?",
+        "Can you describe what just distracted you?",
+        "Do you feel focused enough to continue?",
+        "What task or thought pulled your attention away?",
+        "How can you refocus on the course content?",
+      ]
+    : ["I think you're not properly concentrating here. Do you want to continue with the course?"];
 
   const handleExit = () => {
     stopVideo();
-    route.push("/")
-  }
+    route.push("/");
+  };
 
   const generateRandomQuestion = () => {
     const randomIndex = Math.floor(Math.random() * distractionQuestions.length);
@@ -39,6 +42,8 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
   }, [courseVideoRef]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // Prevent SSR execution
+
     let detectionTimer = null;
 
     if (proctor) {
@@ -64,6 +69,8 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
   }, [isFaceDetected, counter, proctor, courseVideoRef]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // Ensure browser-only execution
+
     const loadModels = async () => {
       try {
         await Promise.all([
@@ -92,14 +99,16 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
     if (videoRef.current && videoRef.current.srcObject) {
       const tracks = videoRef.current.srcObject.getTracks();
       tracks.forEach((track) => track.stop());
-      videoRef.current.srcObject = null; 
+      videoRef.current.srcObject = null;
     }
   };
 
   useEffect(() => {
+    if (typeof window === "undefined" || !proctor) return; // Prevent SSR execution
+
     let detectionInterval = null;
 
-    if (videoRef.current && proctor) {
+    if (videoRef.current) {
       detectionInterval = setInterval(async () => {
         try {
           const detections = await faceapi.detectAllFaces(
@@ -144,30 +153,36 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
             <h4 className="text-2xl font-semibold text-gray-800 mb-4">Zer01Bot</h4>
             <p className="text-lg text-center">{chatbotQuestion}</p>
             {!coursePanel ? (
-            <input
-              type="text"
-              placeholder="Type your response..."
-              required
-              className="w-3/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-            />
-            ) : ""}
+              <input
+                type="text"
+                placeholder="Type your response..."
+                required
+                className="w-3/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              />
+            ) : (
+              ""
+            )}
             {!coursePanel ? (
-            <button
-              type="submit"
-              className="w-1/3 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
-            >
-              Respond
-            </button>
+              <button
+                type="submit"
+                className="w-1/3 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+              >
+                Respond
+              </button>
             ) : (
               <div className="w-full flex flex-row justify-around">
-              <button
-                className="w-1/3 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
-                onClick={handleExit}
-              >I'm tiered</button>
-              <button
-                className="w-1/3 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
-                type="submit"
-              >Yes continue</button>
+                <button
+                  className="w-1/3 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                  onClick={handleExit}
+                >
+                  I'm tired
+                </button>
+                <button
+                  className="w-1/3 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                  type="submit"
+                >
+                  Yes, continue
+                </button>
               </div>
             )}
           </form>
