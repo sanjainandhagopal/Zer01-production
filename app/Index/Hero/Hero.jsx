@@ -14,6 +14,10 @@ export default function Hero({user}) {
     route.push("/Programming/Catelog")
   }
 
+  const handleRouteProject = () => {
+    route.push("/Project/Catelog")
+  }
+
   return (
     <div>
     <div className="flex flex-col md:flex-row items-center mt-20 max-h-screen">
@@ -40,7 +44,9 @@ export default function Hero({user}) {
           
           className="z-20 mt-10 flex flex-row -mr-10">
           <div>
-            <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
+            <div
+              onClick={handleRouteProject}
+              className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
               {/* Image Section */}
               <div className="p-2">
                 <Image
