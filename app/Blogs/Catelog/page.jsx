@@ -1,3 +1,4 @@
+
 'use client';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -39,27 +40,39 @@ export default function Catelog() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Blog Catalog</h1>
-      <div className="space-y-4">
-        {blogs.map((blog) => (
-          <div
-            key={blog._id}
-            className="p-4 border rounded-md hover:shadow-lg transition-shadow"
-          >
-            <h2 className="text-xl font-semibold text-gray-700">{blog.BlogTitle}</h2>
-            <p className="text-sm text-gray-500">
-              {new Date(blog.CreateDate).toLocaleDateString()}
-            </p>
+    <div className="">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-6">
+      {blogs.map((blog) => (
+        <div
+          key={blog._id}
+          className="hero-card border border-white rounded-lg shadow-md overflow-hidden flex flex-col"
+        >
+          {/* Left Section - Image */}
+          <div className="w-full h-40 sm:h-48 md:h-52">
+            <img src="ccourse.png" // Placeholder image
+              alt="Blog"
+              className="w-full h-full object-cover p-2"
+            />
+          </div>
+  
+          {/* Right Section */}
+          <div className="p-4 flex flex-col justify-between">
+            {/* Title */}
+            <h2 className="text-base sm:text-lg font-bold text-white leading-snug mb-4 line-clamp-2">
+              {blog.BlogTitle}
+            </h2>
+  
+            {/* Button */}
             <button
+              className="bg-blue-500 text-white py-2 px-4 text-sm rounded-md hover:bg-blue-600 transition duration-200"
               onClick={() => handleViewBlog(blog._id)}
-              className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 transition duration-300"
             >
-              View Details
+              View Blog
             </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+    </div>
     </div>
   );
 }
