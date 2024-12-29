@@ -63,8 +63,9 @@ export default function Login() {
             {/* Left Section with an Image */}
             <div
                 className="hidden md:flex w-1/2 bg-cover bg-center "
-                style={{ backgroundImage: 'url("zer01-logo.png")'  }}
-            ></div>
+            >
+                <img src="zer01-logo.png" alt="" srcset="" className='bg-white' />
+            </div>
 
             {/* Right Section with Login Form */}
             <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 ">
