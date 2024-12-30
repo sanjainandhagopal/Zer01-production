@@ -2,7 +2,6 @@ import React from 'react';
 import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import NavigationBar from '@/app/NavigationBar/page';
-import Footer from '@/app/Footer/page';
 
 const projects = [
   {
@@ -117,7 +116,6 @@ export default function Catelog() {
         ))}
       </div>
     </div>
-    <Footer/>
   </div>
   
   )

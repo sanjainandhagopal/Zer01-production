@@ -6,9 +6,9 @@ import Categories from './Categories/Categories'
 import Cardlist from './CardList/Cardlist'
 import Prblmcard from './Pblm/Prblmcard'
 import Blogcard from './Blogcard/Blogcard'
+import Footer from './Footer/page'
 import { fetchUser } from '../OperatorFunctions/userVerifier';
 import { fetchCourses } from '../OperatorFunctions/courseProvider';
-import Footer from '../Footer/page';
 
 export default function Index() {
   const [user, setUser] = useState(null);
