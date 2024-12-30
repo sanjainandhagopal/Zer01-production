@@ -1,4 +1,3 @@
-
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -26,11 +25,11 @@ const NavigationBar = ({ user }) => {
 
   return (
     <div className="w-full flex flex-row justify-center mt-10">
-      <nav className="fixed top-0 mt-2 w-2/3 bg-gradient-to-r from-gray-500/90 to-gray-900/90 backdrop-blur-lg text-white z-50 shadow-lg rounded-full">
+      <nav className="fixed top-0 mt-2 w-full hero-card   backdrop-blur-lg text-white z-50 shadow-lg rounded-lg">
         <div className="container mx-auto h-20 flex items-center justify-between px-4">
           {/* Left: Nav Brand */}
-          <div className="flex items-center space-x-2">
-            <img src="/zer01-logo.png" alt="Brand Logo" className="w-[6em]" />
+          <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white">
+            <img src="/zer01-logo.png" alt="Brand Logo" className="" />
           </div>
 
           {/* Middle: Nav Links */}
@@ -40,6 +39,7 @@ const NavigationBar = ({ user }) => {
             <a href="/Project/Catelog" className="hover:text-gray-300">Projects</a>
             <a href="/Programming/Catelog" className="hover:text-gray-300">Problems</a>
             <a href="/Blogs/Catelog" className="hover:text-gray-300">Blogs</a>
+            <a href="/Profile" className="hover:text-gray-300">Profile</a>
           </div>
 
           {/* Right: Profile or Login */}
@@ -96,7 +96,7 @@ const NavigationBar = ({ user }) => {
         {isDrawerOpen && (
           <div className="md:hidden bg-gray-800 text-white w-full py-4 space-y-4">
             <a href="/Course/Catelog" className="block text-center hover:text-gray-300">Course</a>
-            <a href="#" className="block text-center hover:text-gray-300">Projects</a>
+            <a href="/Project/Catelog" className="block text-center hover:text-gray-300">Projects</a>
             <a href="/Programming/Catelog" className="block text-center hover:text-gray-300">Problems</a>
             <a href="/Blogs/Catelog" className="block text-center hover:text-gray-300">Blogs</a>
             {user ? (

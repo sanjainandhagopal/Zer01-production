@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import * as faceapi from "face-api.js";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
   const videoRef = useRef(null);
@@ -143,50 +144,69 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
 
       {isChatbotVisible && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-80 flex justify-center items-center z-50">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              closeChatbot();
-            }}
-            className="w-2/3 h-2/3 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-xl p-6 flex flex-col justify-center items-center space-y-4"
-          >
-            <h4 className="text-2xl font-semibold text-gray-800 mb-4">Zer01Bot</h4>
-            <p className="text-lg text-center">{chatbotQuestion}</p>
-            {!coursePanel ? (
-              <input
-                type="text"
-                placeholder="Type your response..."
-                required
-                className="w-3/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-              />
-            ) : (
-              ""
-            )}
-            {!coursePanel ? (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            closeChatbot();
+          }}
+          className="w-11/12 sm:w-2/3 max-h-full text-gray-900 hero-card border border-gray-300 rounded-lg shadow-xl p-4 sm:p-6 flex flex-col justify-center items-center space-y-4 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900"
+        >
+          <Image
+            src="/bot-top.svg"
+            alt="Example Image"
+            width={80}
+            height={80}
+            className="rounded-lg shadow-lg sm:w-[100px] sm:h-[100px]"
+          />
+          <h4 className="text-xl sm:text-2xl font-semibold text-slate-100 mb-2 sm:mb-4">
+            Zer01Bot
+          </h4>
+          <p className="text-sm sm:text-lg text-center text-white px-4 sm:px-0">
+            {chatbotQuestion}
+          </p>
+          {!coursePanel ? (
+            <input
+              type="text"
+              placeholder="Type your response..."
+              required
+              className="w-full sm:w-3/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 bg-gray-200 placeholder-gray-600 text-sm sm:text-base"
+            />
+          ) : (
+            ""
+          )}
+          {!coursePanel ? (
+            <button
+              type="submit"
+              className="w-full sm:w-1/3 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition flex items-center justify-center text-sm sm:text-base"
+            >
+              Respond
+            </button>
+          ) : (
+            <div className="w-full flex flex-col sm:flex-row justify-center sm:justify-around space-y-4 sm:space-y-0 sm:space-x-4">
               <button
-                type="submit"
-                className="w-1/3 bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                className="w-full sm:w-1/3 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center"
+                onClick={handleExit}
               >
-                Respond
+                
+                <div className="px-3 sm:px-5 text-base sm:text-xl text-center">
+                  I'm Tired
+                </div>
               </button>
-            ) : (
-              <div className="w-full flex flex-row justify-around">
-                <button
-                  className="w-1/3 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
-                  onClick={handleExit}
-                >
-                  I'm tired
-                </button>
-                <button
-                  className="w-1/3 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
-                  type="submit"
-                >
-                  Yes, continue
-                </button>
-              </div>
-            )}
-          </form>
-        </div>
+              <button
+                className="w-full sm:w-1/3 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition flex items-center justify-center"
+                type="submit"
+              >
+                
+                <div className="px-3 sm:px-5 text-base sm:text-xl text-center">
+                  Yes, I'll Continue
+                </div>
+              </button>
+            </div>
+          )}
+        </form>
+      </div>
+      
+      
       )}
     </div>
   );

@@ -197,7 +197,7 @@ export default function CourseDetails({ params: paramsPromise }) {
     <FullScreen handle={handle}>
       <div className="flex flex-col lg:flex-row">
         {/* Left Panel */}
-        <div className="lg:w-1/4 bg-gray-900 p-5 min-h-screen border-r shadow-sm space-y-4">
+        <div className="lg:w-1/4  p-5 min-h-screen border-r shadow-sm space-y-4">
           <button
             className="px-3 py-2 flex items-center justify-start bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
             onClick={handleExitCourse}
@@ -206,92 +206,97 @@ export default function CourseDetails({ params: paramsPromise }) {
           </button>
           <h2 className="text-2xl font-bold text-blue-600 mb-4">Course Modules</h2>
           {proctor ? (
-            <ul className="space-y-4">
-              {Modules.map((module, index) => {
-                const locked = isModuleLocked(index);
-
-                return (
-                  <li
-                    key={index}
-                    className={`p-4 rounded-lg shadow-md transition-all ${
-                      locked ? 'bg-gray-950 cursor-not-allowed' : 'bg-white hover:shadow-lg'
+          <ul className="space-y-4 bg-gray-800 p-6 rounded-lg shadow-md">
+          {Modules.map((module, index) => {
+            const locked = isModuleLocked(index);
+        
+            return (
+              <li
+                key={index}
+                className={`p-4 rounded-lg shadow-md transition-transform duration-300 transform hover:scale-105 ${
+                  locked
+                    ? 'bg-gray-700 cursor-not-allowed opacity-70'
+                    : 'bg-gray-900 hover:shadow-lg '
+                }`}
+              >
+                <div
+                  className={`p-4 flex justify-between items-center rounded-lg ${
+                    locked ? 'cursor-not-allowed' : 'cursor-pointer'
+                  }`}
+                  onClick={() => !locked && toggleModule(index)}
+                >
+                  <h3
+                    className={`text-lg font-semibold ${
+                      locked ? 'text-gray-500' : 'text-cyan-400'
                     }`}
                   >
-                    <div
-                      className={`flex justify-between items-center ${
-                        locked ? 'cursor-not-allowed' : 'cursor-pointer'
-                      }`}
-                      onClick={() => !locked && toggleModule(index)}
-                    >
-                      <h3
-                        className={`text-lg font-medium ${
-                          locked ? 'text-gray-500' : 'text-blue-600'
-                        }`}
-                      >
-                        Module {index + 1}: {module.Title}
-                      </h3>
-                      <span className="text-lg font-bold">
-                        {expandedModule === index ? '-' : '+'}
-                      </span>
-                    </div>
-                    {expandedModule === index && !locked && (
-                      <div className="mt-4">
-                        {module.Content?.length > 0 && (
-                          <div>
-                            <h4 className="font-medium text-gray-700 mb-2">Content:</h4>
-                            <ul className="list-disc list-inside text-sm text-gray-600">
-                              {module.Content.map((content, idx) => {
-                                const locked = isVideoLocked(index, idx);
-
-                                return (
-                                  <li
-                                    key={idx}
-                                    className={`ml-3 cursor-pointer ${
-                                      locked ? 'text-gray-500' : 'text-blue-600 hover:text-blue-800'
-                                    }`}
-                                    onClick={() =>
-                                      !locked &&
-                                      handleVideoSelect(content.Video, content._id, module._id)
-                                    }
-                                  >
-                                    {content.Title} - {content.Duration} seconds
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        )}
-                        {module.ModuleAssessment?.length > 0 && (
-                          <div className="mt-4">
-                            <h4 className="font-medium text-gray-700 mb-2">Module Assessment:</h4>
-                            <ul className="list-disc list-inside text-sm text-blue-500 cursor-pointer">
+                    Module {index + 1}: {module.Title}
+                  </h3>
+                  <span className={`text-xl font-bold ${locked ? 'text-gray-500' : 'text-cyan-400'}`}>
+                    {expandedModule === index ? '-' : '+'}
+                  </span>
+                </div>
+                {expandedModule === index && !locked && (
+                  <div className="mt-4">
+                    {module.Content?.length > 0 && (
+                      <div>
+                        <h4 className="font-medium text-cyan-400 mb-2">Content:</h4>
+                        <ul className="list-none text-sm space-y-2">
+                          {module.Content.map((content, idx) => {
+                            const locked = isVideoLocked(index, idx);
+        
+                            return (
                               <li
-                                onClick={() => {
-                                  if (!isModuleAssessmentLocked(index)) {
-                                    handleAssessmentSelect(module.ModuleAssessment, module._id);
-                                  }
-                                }}
-                                className={`cursor-pointer ${
-                                  isModuleAssessmentLocked(index)
-                                    ? 'text-gray-500 cursor-not-allowed'
-                                    : 'text-blue-500 hover:text-blue-800'
+                                key={idx}
+                                className={`ml-3 cursor-pointer border border-gray-700 p-3 rounded-xl transition-transform transform hover:scale-105 duration-200 ${
+                                  locked
+                                    ? 'text-gray-500 bg-gray-800 cursor-not-allowed'
+                                    : 'text-white bg-gray-700 hover:text-cyan-300 hover:bg-gray-600'
                                 }`}
+                                onClick={() =>
+                                  !locked &&
+                                  handleVideoSelect(content.Video, content._id, module._id)
+                                }
                               >
-                                <span className="hover:underline">
-                                  {isModuleAssessmentLocked(index)
-                                    ? 'Assessment Locked'
-                                    : 'View Module Assessment'}
-                                </span>
+                                {content.Title} - {content.Duration} seconds
                               </li>
-                            </ul>
-                          </div>
-                        )}
+                            );
+                          })}
+                        </ul>
                       </div>
                     )}
-                  </li>
-                );
-              })}
-            </ul>
+                    {module.ModuleAssessment?.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="font-medium text-cyan-400 mb-2">Module Assessment:</h4>
+                        <ul className="list-none text-sm space-y-2">
+                          <li
+                            onClick={() => {
+                              if (!isModuleAssessmentLocked(index)) {
+                                handleAssessmentSelect(module.ModuleAssessment, module._id);
+                              }
+                            }}
+                            className={`p-3 rounded-lg transition-transform transform hover:scale-105 duration-200 ${
+                              isModuleAssessmentLocked(index)
+                                ? 'text-gray-500 bg-gray-800 cursor-not-allowed'
+                                : 'text-cyan-300 bg-gray-700 hover:bg-gray-600 hover:text-cyan-200'
+                            }`}
+                          >
+                            <span className="hover:underline">
+                              {isModuleAssessmentLocked(index)
+                                ? 'Assessment Locked'
+                                : 'View Module Assessment'}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+        
           ) : (
             'Please enable proctoring'
           )}

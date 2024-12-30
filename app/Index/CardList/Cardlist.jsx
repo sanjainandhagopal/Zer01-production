@@ -30,9 +30,7 @@ export default function Cardlist({ courses, category }) {
 
   return (
     <div className="mx-auto">
-      <div className="w-full text-center my-5 text-2xl">
-        <h2>Explore our courses here</h2>
-      </div>
+      
       <div className="flex overflow-x-auto scroll-smooth snap-x gap-4 px-6 py-5 overflow-hidden scrollbar-star">
         {filteredCourses.map((card) => (
           <div

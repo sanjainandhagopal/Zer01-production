@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { fetchUser } from '../OperatorFunctions/userVerifier';
+import NavigationBar from '../NavigationBar/page';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -37,6 +38,8 @@ export default function Profile() {
   }
 
   return (
+    <>
+    <NavigationBar user={user} />
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         {/* Profile Header */}
@@ -69,5 +72,6 @@ export default function Profile() {
         </div>
       </div>
     </div>
+    </>
   );
 }
