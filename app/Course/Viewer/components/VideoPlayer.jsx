@@ -41,7 +41,7 @@ const VideoPlayer = ({ selectedVideo, videoRef, userId, courseId, moduleId, vide
               console.log(`video Id : ${videoId}`);
               console.log(`progress value : ${progress}`);
               console.log(`timestamp value : ${currentTime}`);
-              await axios.put("http://localhost:5000/course/track", {
+              await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/course/track`, {
                 userId,
                 courseId,
                 moduleId,
