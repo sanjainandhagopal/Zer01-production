@@ -74,20 +74,6 @@ export default function Catelog() {
               <a href='Project/Viewer' className="text-xl font-semibold mb-2">{project.title}</a>
               <p className="text-gray-300 text-sm mb-4">{project.intro}</p>
 
-              {/* Tech Stack */}
-              <div className="flex items-center space-x-4 mb-4">
-                {project.techStack.map((icon, index) => (
-                  <Image
-                    key={index}
-                    src={icon}
-                    alt="Tech Icon"
-                    width={32}
-                    height={32}
-                    className="rounded-md"
-                  />
-                ))}
-              </div>
-
               {/* Links */}
               <div className="flex justify-between items-center">
                 {/* GitHub Link */}
