@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           {/* Logo Section */}
-          <div className="mb-6 md:mb-0">
+          <div className="mb-6 md:mb-0 w-20 h-20 rounded-full flex items-center justify-center bg-white">
             <a href="#" className="flex items-center">
               <img 
                 src="/zer01-logo.png" 
@@ -16,9 +16,6 @@ export default function Footer() {
                 alt="Zer01 Logo" 
                 style={{ height: 'auto', width: 'auto' }} 
               />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Zer01
-              </span>
             </a>
           </div>
 

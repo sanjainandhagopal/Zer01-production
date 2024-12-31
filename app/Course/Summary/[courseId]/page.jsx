@@ -42,7 +42,7 @@ export default function Summary({ params }) {
   }, [courseId]);
 
   if (!courseId || loading) 
-  return  <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+  return  <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
             <div style={{ transform: 'rotate(180deg)' }}>
               <Slab color="#0e1c8e" size="large" text="" textColor="" />
             </div>

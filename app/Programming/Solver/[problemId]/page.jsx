@@ -2,12 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Compiler from '@/app/Compiler/Compiler';
+import { useRouter } from 'next/navigation';
+import { Slab } from 'react-loading-indicators';
 
 export default function Solver({ params }) {
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [problemId, setProblemId] = useState(null); // State to hold unwrapped params
+    const route = useRouter();
 
     useEffect(() => {
         const unwrapParams = async () => {
@@ -38,9 +41,18 @@ export default function Solver({ params }) {
         }
     }, [problemId]);
 
+    const handleExit = () => {
+        setLoading(true);
+        route.push("/Programming/Catelog");
+    }
+
     if (loading) {
         return (
-            <div className="text-center text-lg font-semibold text-blue-600">Loading problem data...</div>
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
+            <div style={{ transform: 'rotate(180deg)' }}>
+                <Slab color="#0e1c8e" size="large" text="" textColor="" />
+            </div>
+            </div>
         );
     }
 
@@ -52,6 +64,9 @@ export default function Solver({ params }) {
 
     return (
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-8">
+            <button 
+                onClick={handleExit}
+                className='w-20 py-2 px-4 rounded-md bg-indigo-500 text-white'>Exit</button>
             <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">{problem.Title}</h1>
             <div className="space-y-4">
                 <div className="bg-blue-50 p-4 rounded-lg shadow-md">

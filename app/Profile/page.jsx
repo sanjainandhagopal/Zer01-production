@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUser } from '../OperatorFunctions/userVerifier';
 import NavigationBar from '../NavigationBar/page';
+import { Slab } from 'react-loading-indicators';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -15,8 +16,10 @@ export default function Profile() {
 
   if (loadingUser) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-lg font-semibold text-gray-500">Loading profile...</p>
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
+        <div style={{ transform: 'rotate(180deg)' }}>
+          <Slab color="#0e1c8e" size="large" text="" textColor="" />
+        </div>
       </div>
     );
   }

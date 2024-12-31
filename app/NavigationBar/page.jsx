@@ -2,26 +2,41 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
+import { Slab } from "react-loading-indicators";
 
 const NavigationBar = ({ user }) => {
+  const [loading, setLoading] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const router = useRouter();
 
   const onLogin = () => {
+    setLoading(true);
     router.push("/Login");
   };
 
   const onLogout = async () => {
     try {
+      setLoading(true);
       // Call the backend logout API
       await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`, {}, { withCredentials: true });
       // Redirect to login page after successful logout
       router.push("/Login");
     } catch (error) {
       console.error("Logout failed:", error.response?.data || error.message);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
+        <div style={{ transform: 'rotate(180deg)' }}>
+          <Slab color="#0e1c8e" size="large" text="" textColor="" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-row justify-center mt-10">
@@ -29,7 +44,9 @@ const NavigationBar = ({ user }) => {
         <div className="container mx-auto h-20 flex items-center justify-between px-4">
           {/* Left: Nav Brand */}
           <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white">
-            <img src="/zer01-logo.png" alt="Brand Logo" className="" />
+            <a href="/">
+              <img src="/zer01-logo.png" alt="Brand Logo" className="" />
+            </a>
           </div>
 
           {/* Middle: Nav Links */}

@@ -4,6 +4,8 @@ import axios from 'axios';
 import NavigationBar from "@/app/NavigationBar/page";
 import { useRouter } from 'next/navigation';
 import { fetchProblems } from '@/app/OperatorFunctions/problemDataProvider';
+import { Slab } from 'react-loading-indicators';
+import { fetchUser } from '@/app/OperatorFunctions/userVerifier';
 
 export default function Catelog() {
     const [problems, setProblems] = useState([]);
@@ -11,26 +13,41 @@ export default function Catelog() {
     const [problemError, setProblemError] = useState(null);
     const router = useRouter();
 
+    const [user, setUser] = useState(null);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [errorUser, setErrorUser] = useState(null);
+
+    useEffect(() => {
+        fetchUser(setUser, setLoadingUser, setErrorUser);
+    }, []);
+
     useEffect(() => {
         fetchProblems(setProblems, setProblemLoading, setProblemError);
     }, []);
-
-    if (problemLoading) {
-        return <div className="text-center text-lg font-semibold text-blue-600">Loading problems...</div>;
-    }
 
     if (problemError) {
         return <div className="text-center text-lg font-semibold text-red-600">{problemError}</div>;
     }
 
     const handleSubmit = (id) => {
-      router.push(`/Programming/Solver/${id}`);
+        setProblemLoading(true);
+        router.push(`/Programming/Solver/${id}`);
     };
+
+    if (problemLoading) {
+        return (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
+            <div style={{ transform: 'rotate(180deg)' }}>
+                <Slab color="#0e1c8e" size="large" text="" textColor="" />
+            </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto p-6 bg-black rounded-lg shadow-lg">
             <div className=' mb-10 ' >
-            <NavigationBar/>
+            <NavigationBar user={user}/>
             </div>
             <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Problem-Solving Catalog</h1>
             {problems.length === 0 ? (

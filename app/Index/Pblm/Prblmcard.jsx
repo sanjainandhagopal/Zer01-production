@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { fetchProblems } from "@/app/OperatorFunctions/problemDataProvider";
 import { truncateText } from "@/app/OperatorFunctions/DataTruncate";
 
-export default function Prblmcard() {
+export default function Prblmcard({setLoading}) {
   const [problems, setProblems] = useState([]);
   const [problemLoading, setProblemLoading] = useState(true);
   const [problemError, setProblemError] = useState(null);
@@ -34,6 +34,7 @@ export default function Prblmcard() {
   }, []);
 
   const handleSubmit = (id) => {
+    setLoading(true);
     router.push(`/Programming/Solver/${id}`);
   };
 

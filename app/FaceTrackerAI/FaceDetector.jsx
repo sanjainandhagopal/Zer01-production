@@ -187,7 +187,13 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
                 className="w-full sm:w-1/3 bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center"
                 onClick={handleExit}
               >
-                
+                <Image
+                  src="/tired.svg"
+                  alt="not okay Image"
+                  width={40}
+                  height={40}
+                  className="rounded-lg shadow-lg sm:w-[60px] sm:h-[60px]"
+                />
                 <div className="px-3 sm:px-5 text-base sm:text-xl text-center">
                   I'm Tired
                 </div>
@@ -196,7 +202,13 @@ export const FaceDetector = ({ courseVideoRef, proctor, coursePanel }) => {
                 className="w-full sm:w-1/3 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition flex items-center justify-center"
                 type="submit"
               >
-                
+                <Image
+                  src="/continue.svg"
+                  alt="yes continue Image"
+                  width={40}
+                  height={40}
+                  className="rounded-lg shadow-lg sm:w-[60px] sm:h-[60px]"
+                />
                 <div className="px-3 sm:px-5 text-base sm:text-xl text-center">
                   Yes, I'll Continue
                 </div>

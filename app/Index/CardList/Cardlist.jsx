@@ -4,7 +4,7 @@ import { UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { truncateText } from "@/app/OperatorFunctions/DataTruncate";
 
-export default function Cardlist({ courses, category }) {
+export default function Cardlist({ courses, category, setLoading }) {
   const router = useRouter();
 
   // Helper function to group courses by category and pick one card per category
@@ -25,6 +25,7 @@ export default function Cardlist({ courses, category }) {
 
   // Navigate to the course details page
   const handleViewCourse = (id) => {
+    setLoading(true);
     router.push(`/Course/Summary/${id}`); // Navigate to dynamic route `/course/[id]`
   };
 

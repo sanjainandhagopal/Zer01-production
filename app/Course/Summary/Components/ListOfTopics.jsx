@@ -12,7 +12,7 @@ export default function ListOfTopics({modules}) {
     <div className="max-w-xl mx-10 p-4">
       <h1 className="text-2xl font-bold mb-4">Course Modules</h1>
       {/* Render accordion items */}
-      {modules.length === 0 ? (
+      {!modules ? (
         <p className="text-gray-500">No modules available.</p>
       ) : (
         modules.map((module, index) => (

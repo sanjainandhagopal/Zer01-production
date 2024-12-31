@@ -83,7 +83,7 @@ export default function Page({ params }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 w-full">
       {loading && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 z-50">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
           <div style={{ transform: 'rotate(180deg)' }}>
             <Slab color="#0e1c8e" size="large" text="" textColor="" />
           </div>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import NavigationBar from "@/app/NavigationBar/page";
 import { fetchUser } from "@/app/OperatorFunctions/userVerifier";
+import { Slab } from "react-loading-indicators";
 
 export default function Catelog() {
   const [user, setUser] = useState(null);
@@ -12,7 +13,7 @@ export default function Catelog() {
   const [errorUser, setErrorUser] = useState(null);
 
   const [blogs, setBlogs] = useState([]); // State to store blogs
-  const [loadingBlogs, setLoadingBlogs] = useState(true); // State to track loading
+  const [loadingBlogs, setLoadingBlogs] = useState(false); // State to track loading
   const [errorBlogs, setErrorBlogs] = useState(null); // State to track errors
   const router = useRouter();
 
@@ -39,11 +40,16 @@ export default function Catelog() {
   }, []);
 
   const handleViewBlog = (id) => {
+    setLoadingBlogs(true);
     router.push(`/Blogs/Viewer/${id}`);
   }
 
   if (loadingBlogs) {
-    return <div>Loading blogs...</div>;
+    return <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black z-50">
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <Slab color="#0e1c8e" size="large" text="" textColor="" />
+            </div>
+          </div>
   }
 
   if (errorBlogs) {

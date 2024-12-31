@@ -3,19 +3,27 @@ import Image from 'next/image'
 import { Smile } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function Hero({user}) {
+export default function Hero({user, setLoading}) {
   const route = useRouter();
 
   const handleRouteCourse = () => {
+    setLoading(true);
     route.push("/Course/Catelog")
   }
 
   const handleRouteProblem = () => {
+    setLoading(true);
     route.push("/Programming/Catelog")
   }
 
   const handleRouteProject = () => {
+    setLoading(true);
     route.push("/Project/Catelog")
+  }
+
+  const handleProfileRoute = () => {
+    setLoading(true);
+    route.push("/Profile")
   }
 
   return (
@@ -31,7 +39,9 @@ export default function Hero({user}) {
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Like Never Before.
         </div>
         <div className="flex flex-col md:flex-row mt-10 items-center">
-          <button className="flex justify-center w-fit p-2 bg-gradient-to-l from-teal-500 via-purple-500 to-red-500 text-transparent bg-clip-text">
+          <button 
+            onClick={handleProfileRoute}
+            className="flex justify-center w-fit p-2 bg-gradient-to-l from-teal-500 via-purple-500 to-red-500 text-transparent bg-clip-text">
             <div className="text-xl">Hello {user ? user.name : "Buddy"}</div>
             <Smile className="text-white mt-1 ml-2" />
           </button>
@@ -46,7 +56,7 @@ export default function Hero({user}) {
           <div>
             <div
               onClick={handleRouteProject}
-              className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
+              className="flex flex-col cursor-pointer border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
               {/* Image Section */}
               <div className="p-2">
                 <Image
@@ -67,7 +77,7 @@ export default function Hero({user}) {
         <div 
           onClick={handleRouteCourse}
           className="z-30 flex flex-row">
-          <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
+          <div className="flex flex-col border-y-2 cursor-pointer rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
             {/* Image Section */}
             <div className="p-2">
               <Image
@@ -88,7 +98,7 @@ export default function Hero({user}) {
           onClick={handleRouteProblem}
           className="z-0 mt-20 flex flex-row -ml-10">
           <div className="">
-            <div className="flex flex-col border-y-2 rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
+            <div className="flex flex-col border-y-2 cursor-pointer rounded-3xl border-gray-100 h-60 w-52 items-center justify-center hero-card backdrop-blur-xl">
               {/* Image Section */}
               <div className="p-2">
                 <Image
