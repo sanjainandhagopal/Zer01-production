@@ -66,7 +66,7 @@ export default function Catelog() {
                             <div className="flex-grow"></div> {/* This ensures the button is at the bottom */}
                             <button 
                                 onClick={() => handleSubmit(problem._id)} 
-                                className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none transition duration-200 ease-in-out"
+                                className="text-[10px] md:text-lg btn mx-auto"
                             >
                                 Solve
                             </button>

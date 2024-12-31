@@ -69,7 +69,7 @@ export default function Hero({user, setLoading}) {
               </div>
               {/* Text Section */}
               <div className="text-sm p-1 font-bold">Projects</div>
-              <div className="text-sm pb-2">100+</div>
+              <div className="text-sm pb-2">7</div>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function Hero({user, setLoading}) {
             </div>
             {/* Text Section */}
             <div className="text-sm p-1 font-bold">Course</div>
-            <div className="text-sm pb-2">100+</div>
+            <div className="text-sm pb-2">60</div>
           </div>
         </div>
   
@@ -111,7 +111,7 @@ export default function Hero({user, setLoading}) {
               </div>
               {/* Text Section */}
               <div className="text-sm p-1 font-bold">Problems</div>
-              <div className="text-sm pb-2">100+</div>
+              <div className="text-sm pb-2">4</div>
             </div>
           </div>
         </div>

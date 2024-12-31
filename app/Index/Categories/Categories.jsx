@@ -74,17 +74,6 @@ import { Cloud, Cpu, Network, SquareDashedBottomCode, PencilRuler, CircuitBoard 
               onClick={() => setCategory("IoT")}
               className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start mech flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
               <div className="mech-logo mb-2">
-                <PencilRuler className='text-white mech-icon w-12 h-12' />
-              </div>
-              <div className="button-text">
-                <span>Mechanical Design</span>
-              </div>
-            </button>
-
-            <button 
-              onClick={() => setCategory("Cloud Computing")}
-              className="brutalist-button flex-shrink-0 scroll-ms-6 snap-start iot flex flex-col items-center p-4 h-28 w-28 md:h-32 md:w-32">
-              <div className="iot-logo mb-2">
                 <CircuitBoard className='text-white iot-icon w-12 h-12' />
               </div>
               <div className="button-text">

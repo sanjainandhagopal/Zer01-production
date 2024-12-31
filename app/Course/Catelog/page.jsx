@@ -114,7 +114,7 @@ export default function Catelog() {
                 </p>
                 <button
                   onClick={() => handleViewCourse(course._id)}
-                  className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 transition duration-300"
+                  className="text-[10px] md:text-lg btn mx-auto"
                 >
                   View Details
                 </button>

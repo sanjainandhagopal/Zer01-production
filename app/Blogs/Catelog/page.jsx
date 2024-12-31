@@ -82,7 +82,7 @@ export default function Catelog() {
   
             {/* Button */}
             <button
-              className="bg-blue-500 text-white py-2 px-4 text-sm rounded-md hover:bg-blue-600 transition duration-200"
+              className="text-[10px] md:text-lg btn mx-auto"
               onClick={() => handleViewBlog(blog._id)}
             >
               View Blog
